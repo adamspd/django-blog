@@ -23,8 +23,8 @@
                 aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="#">Home</a>
-        <a class="navbar-brand" href="#">Blog</a>
+        <a class="navbar-brand" href="/">Home</a>
+        <a class="navbar-brand" href="{% url 'blog:home' %}">Blog</a>
 
         <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -73,23 +73,23 @@
             <div class="col-6 col-md">
                 <h5>Past Work</h5>
                 <ul class="list-unstyled text-small">
-                    <li><a class="text-muted" href="https://github.com/adamspd">GitHub</a></li>
-                    <li><a class="text-muted" href="https://imagerybypd.com">ImageryByPd</a></li>
+                    <li><a class="text-muted" href="https://github.com/adamspd" target="_blank">GitHub</a></li>
+                    <li><a class="text-muted" href="https://crueltouch.com" target="_blank">Crueltouch</a></li>
+                    <li><a class="text-muted" href="https://icerd.co" target="_blank">ICERD</a></li>
                 </ul>
             </div>
             <div class="col-6 col-md">
                 <h5>Information</h5>
                 <ul class="list-unstyled text-small">
                     <li><a class="text-muted" href="#">Work Process</a></li>
-                    <li><a class="text-muted" href="#">Additional Services</a>
-                    </li>
+                    <li><a class="text-muted" href="#">Additional Services</a></li>
                     <li><a class="text-muted" href="#">Recent Q&A</a></li>
                 </ul>
             </div>
             <div class="col-6 col-md">
                 <h5>Legal</h5>
                 <ul class="list-unstyled text-small">
-                    <li><a class="text-muted" href="#">Locations</a></li>
+                    <li><a class="text-muted" href="#">Send me a message</a></li>
                     <li><a class="text-muted" href="#">Privacy Policy</a></li>
                     <li><a class="text-muted" href="#">Terms & Conditions</a>
                     </li>

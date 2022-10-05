@@ -1,9 +1,9 @@
-import random
-
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q
 from django.shortcuts import render
 
 from blog.models import BlogPost as Post, Tag, PUBLISHED, BlogEntry, Category, BreakingNews
+from blog.utils import generate_rgba_color
 
 
 def get_context_data(request):
@@ -15,38 +15,27 @@ def get_context_data(request):
         return post
 
 
-def filter_all_article_context(post_list, context):
-    if len(post_list) >= 5:
-        last_post = post_list[0]
-        first_row = post_list[1:4]
-        the_rest = post_list[4:]
-    elif 5 > len(post_list) > 1:
-        last_post = post_list[0]
-        first_row = post_list[1:4]
-        the_rest = None
-    elif len(post_list) == 1:
-        last_post = post_list[0]
-        first_row = None
-        the_rest = None
-    else:
-        last_post = None
-        first_row = None
-        the_rest = None
-    context["first_entry"] = last_post
-    context["row"] = first_row
-    context["rest"] = the_rest
-    return context
-
-
 def view_all_article(request):
     posts = get_context_data(request=request)
+    # Paginate posts
+    paginator = Paginator(posts, 10)
+    page = request.GET.get('page')
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        posts = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        posts = paginator.page(paginator.num_pages)
+
     cat_list = Category.objects.all()
     tag_list = Tag.objects.all()
     context = {
         'cat_list': cat_list,
         'tag_list': tag_list,
+        'posts': posts,
     }
-    context = filter_all_article_context(post_list=posts, context=context)
     return render(request, "blog/index.html", context=context)
 
 
@@ -59,16 +48,18 @@ def view_one_article(request, pk, slug):
 
     # Get one breaking news
     breaking_news = BreakingNews.objects.all().filter(is_active=True).order_by('?')[:1]
+    header_color = generate_rgba_color()
     context = {
         'post': post,
         'meta': meta,
         'related_posts': last_posts,
+        'header_color': header_color,
     }
     if breaking_news:
         context['breaking_news'] = breaking_news[0]
 
     print(breaking_news)
-    return render(request=request, template_name='blog/articles_details_new.html', context=context)
+    return render(request=request, template_name='blog/articles_details.html', context=context)
 
 
 def tag_detail(request, slug):

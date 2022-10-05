@@ -1,132 +1,134 @@
 {% extends 'blog/base.html' %}
 {% load static %}
-{% block pageCustomCSS %}{% static 'blog/css/article_details.css' %}{% endblock %}
+{% block pageCustomCSS %}
+    <link rel="stylesheet" href="{% static 'blog/css/article_details_new.css' %}">
+    <link rel="stylesheet" href="{% static 'blog/css/article_details_responsive.css' %}">
+    <link rel="stylesheet" href="{% static 'blog/css/tag_and_categories.css' %}">
+{% endblock %}
 {% block site_description %}{{ post.snippet }}{% endblock %}
 {% block meta_robot_google %}max-snippet:-1{% endblock %}
 {% block title %}{{ post.title }}{% endblock %}
-{% block image_header %}
-    {% if post.header_img %}
-        {% comment %}<div class="apd-table-contents">
-            {{ post.table_content | safe }}
-            <div class="apd-blog-content-share">
-                <hr>
-                <p class="apd-share">SHARE:</p>
-                <a href="https://twitter.com/share?text={{ post.snippet }}&url=https://adamspierredavid.com{{ post.get_absolute_url }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                         class="bi bi-twitter"
-                         viewBox="0 0 16 16">
-                        <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"></path>
-                    </svg>
-                </a>
-                <a href="https://www.facebook.com/sharer/sharer.php?caption={{ post.title }}&u=https://adamspierredavid.com{{ post.get_absolute_url }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                         class="bi bi-facebook" viewBox="0 0 16 16">
-                        <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"></path>
-                    </svg>
-                </a>
-                <a href="https://pinterest.com/pin/create/button/?url=https://adamspierredavid.com{{ post.get_absolute_url }}&media=https://adamspierredavid.com/media{{ post.header_img }}&description={{ post.snippet }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                         class="bi bi-pinterest" viewBox="0 0 16 16">
-                        <path d="M8 0a8 8 0 0 0-2.915 15.452c-.07-.633-.134-1.606.027-2.297.146-.625.938-3.977.938-3.977s-.239-.479-.239-1.187c0-1.113.645-1.943 1.448-1.943.682 0 1.012.512 1.012 1.127 0 .686-.437 1.712-.663 2.663-.188.796.4 1.446 1.185 1.446 1.422 0 2.515-1.5 2.515-3.664 0-1.915-1.377-3.254-3.342-3.254-2.276 0-3.612 1.707-3.612 3.471 0 .688.265 1.425.595 1.826a.24.24 0 0 1 .056.23c-.061.252-.196.796-.222.907-.035.146-.116.177-.268.107-1-.465-1.624-1.926-1.624-3.1 0-2.523 1.834-4.84 5.286-4.84 2.775 0 4.932 1.977 4.932 4.62 0 2.757-1.739 4.976-4.151 4.976-.811 0-1.573-.421-1.834-.919l-.498 1.902c-.181.695-.669 1.566-.995 2.097A8 8 0 1 0 8 0z"></path>
-                    </svg>
-                </a>
-                <a href="whatsapp://send?text={{ post.snippet }} https://adamspierredavid.com{{ post.get_absolute_url }}"
-                   data-action="share/whatsapp/share"
-                   target="_blank">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                         class="bi bi-whatsapp" viewBox="0 0 16 16">
-                        <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"></path>
-                    </svg>
-                </a>
-                <a href="mailto:?subject={{ post.title }}&body=Check out this article https://adamspierredavid.com{{ post.get_absolute_url }} ">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                         class="bi bi-envelope" viewBox="0 0 16 16">
-                        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"></path>
-                    </svg>
-                </a>
-            </div>
-        </div>{% endcomment %}
-        <div class="apd-header-image"
-             style="background-image: url('{{ post.header_img.url }}'); ">
-        </div>
-    {% else %}
-        <div class="apd-table-contents">
-            {{ post.table_content | safe }}
-            <div class="apd-blog-content-share">
-                <hr>
-                <p class="apd-share">SHARE:</p>
-                <a href="https://twitter.com/share?text={{ post.snippet }}&url=https://adamspierredavid.com{{ post.get_absolute_url }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                         class="bi bi-twitter"
-                         viewBox="0 0 16 16">
-                        <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"></path>
-                    </svg>
-                </a>
-                <a href="https://www.facebook.com/sharer/sharer.php?caption={{ post.title }}&u=https://adamspierredavid.com{{ post.get_absolute_url }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                         class="bi bi-facebook" viewBox="0 0 16 16">
-                        <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"></path>
-                    </svg>
-                </a>
-                <a href="https://pinterest.com/pin/create/button/?url=https://adamspierredavid.com{{ post.get_absolute_url }}&media=https://adamspierredavid.com/media{{ post.header_img }}&description={{ post.snippet }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                         class="bi bi-pinterest" viewBox="0 0 16 16">
-                        <path d="M8 0a8 8 0 0 0-2.915 15.452c-.07-.633-.134-1.606.027-2.297.146-.625.938-3.977.938-3.977s-.239-.479-.239-1.187c0-1.113.645-1.943 1.448-1.943.682 0 1.012.512 1.012 1.127 0 .686-.437 1.712-.663 2.663-.188.796.4 1.446 1.185 1.446 1.422 0 2.515-1.5 2.515-3.664 0-1.915-1.377-3.254-3.342-3.254-2.276 0-3.612 1.707-3.612 3.471 0 .688.265 1.425.595 1.826a.24.24 0 0 1 .056.23c-.061.252-.196.796-.222.907-.035.146-.116.177-.268.107-1-.465-1.624-1.926-1.624-3.1 0-2.523 1.834-4.84 5.286-4.84 2.775 0 4.932 1.977 4.932 4.62 0 2.757-1.739 4.976-4.151 4.976-.811 0-1.573-.421-1.834-.919l-.498 1.902c-.181.695-.669 1.566-.995 2.097A8 8 0 1 0 8 0z"></path>
-                    </svg>
-                </a>
-                <a href="whatsapp://send?text={{ post.snippet }} https://adamspierredavid.com{{ post.get_absolute_url }}"
-                   data-action="share/whatsapp/share"
-                   target="_blank">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                         class="bi bi-whatsapp" viewBox="0 0 16 16">
-                        <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"></path>
-                    </svg>
-                </a>
-                <a href="mailto:?subject={{ post.title }}&body=Check out this article https://adamspierredavid.com{{ post.get_absolute_url }} ">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                         class="bi bi-envelope" viewBox="0 0 16 16">
-                        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"></path>
-                    </svg>
-                </a>
-            </div>
-        </div>
-    {% endif %}
-
-{% endblock %}
 {% block body %}
-    <div class="apd-header-text">
-        <h1 class="apd-title-header-image">{{ post.title }}</h1>
-        <div class="container">
-            <small class="apd-small-header-image">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                     class="bi bi-clock" viewBox="0 0 16 16">
-                    <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"></path>
-                    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"></path>
-                </svg>
-                {{ meta.pub_date }}
-                {% if post.tag.all %}
-                    Tags:
-                    {% for tag in post.tag.all %}
-                        <a href="">#{{ tag }}</a>
-                    {% endfor %}
-                {% endif %}
-                {% if user.is_authenticated %}
-                    <br><a href="">(Edit)</a>
-                    <a href="">(delete)</a>
-                {% endif %}
-            </small>
-        </div>
-    </div>
-    <div class="container">
-        <br>
-        <div class="apd-article-body">
-
-            <div class="apd-article-body-content">
-                {{ post.content | safe }}
-                <br><br>
-                <a class="btn btn-secondary" href="{% url 'blog:home' %}">Back</a>
+    {% if breaking_news %}
+        {% include 'blog/breaking_news.html' %}
+    {% endif %}
+    <div id="progress-bar"></div>
+    <div class="apd-main-body">
+        <div class="apd-main-header" style="background: linear-gradient(to bottom, {{ header_color }} 0%, white 100%);">
+            <div class="apd-header-container">
+                <h1 class="article-title">{{ post.title }}</h1>
+                <p class="date-posted">
+                    <small>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                             class="bi bi-clock" viewBox="0 0 16 16">
+                            <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"></path>
+                            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"></path>
+                        </svg>
+                    </small>
+                    Posted: {{ meta.pub_date }} • {% if post.reading_time <= 1 %}
+                    < 1 min read {% else %} {{ post.reading_time }} mins read {% endif %}
+                </p>
+                <div class="tag">
+                    {% if post.tag %}
+                        {% for tag in post.tag.all %}
+                            <a href="" class="single-tag">{{ tag }}</a>
+                        {% endfor %}
+                    {% endif %}
+                    {% if user.is_authenticated %}
+                        <br><a href="" style="text-decoration: none">(EDIT)</a>
+                        <a href="" style="text-decoration: none">(DELETE)</a>
+                    {% endif %}
+                </div>
             </div>
-
+        </div>
+        <div class="apd-main-container">
+            <div class="apd-left-column" id="apd-left-column-id">
+                <div class="apd-table-contents" id="content-fixed">
+                    <p class="apd-table-content-title">
+                        Table of contents
+                    </p>
+                    {{ post.table_content | safe }}
+                </div>
+            </div>
+            <hr class="apd-mobile-tablet">
+            <div class="apd-main-column">
+                {{ post.content | safe }}
+            </div>
+            <div class="apd-right-column">
+                <div class="apd-blog-content-share">
+                    <p class="apd-share">Share</p>
+                    <a href="https://twitter.com/share?text={{ post.snippet }}&url=https://adamspierredavid.com{{ post.get_absolute_url }}"
+                       class="sharing-element"
+                       target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                             class="bi bi-twitter"
+                             viewBox="0 0 16 16">
+                            <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"></path>
+                        </svg>
+                    </a>
+                    <a href="https://www.facebook.com/sharer/sharer.php?caption={{ post.title }}&u=https://adamspierredavid.com{{ post.get_absolute_url }}"
+                       class="sharing-element"
+                       target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                             class="bi bi-facebook" viewBox="0 0 16 16">
+                            <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"></path>
+                        </svg>
+                    </a>
+                    <a href="https://pinterest.com/pin/create/button/?url=https://adamspierredavid.com{{ post.get_absolute_url }}&media=https://adamspierredavid.com/media{{ post.header_img }}&description={{ post.snippet }}"
+                       class="sharing-element"
+                       target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                             class="bi bi-pinterest" viewBox="0 0 16 16">
+                            <path d="M8 0a8 8 0 0 0-2.915 15.452c-.07-.633-.134-1.606.027-2.297.146-.625.938-3.977.938-3.977s-.239-.479-.239-1.187c0-1.113.645-1.943 1.448-1.943.682 0 1.012.512 1.012 1.127 0 .686-.437 1.712-.663 2.663-.188.796.4 1.446 1.185 1.446 1.422 0 2.515-1.5 2.515-3.664 0-1.915-1.377-3.254-3.342-3.254-2.276 0-3.612 1.707-3.612 3.471 0 .688.265 1.425.595 1.826a.24.24 0 0 1 .056.23c-.061.252-.196.796-.222.907-.035.146-.116.177-.268.107-1-.465-1.624-1.926-1.624-3.1 0-2.523 1.834-4.84 5.286-4.84 2.775 0 4.932 1.977 4.932 4.62 0 2.757-1.739 4.976-4.151 4.976-.811 0-1.573-.421-1.834-.919l-.498 1.902c-.181.695-.669 1.566-.995 2.097A8 8 0 1 0 8 0z"></path>
+                        </svg>
+                    </a>
+                    <a href="whatsapp://send?text={{ post.snippet }} https://adamspierredavid.com{{ post.get_absolute_url }}"
+                       class="sharing-element"
+                       data-action="share/whatsapp/share"
+                       target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                             class="bi bi-whatsapp" viewBox="0 0 16 16">
+                            <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"></path>
+                        </svg>
+                    </a>
+                    <a href="mailto:?subject={{ post.title }}&body=Check out this article https://adamspierredavid.com{{ post.get_absolute_url }} "
+                       class="sharing-element"
+                       target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                             class="bi bi-envelope" viewBox="0 0 16 16">
+                            <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"></path>
+                        </svg>
+                    </a>
+                </div>
+                <hr class="apd-share-line">
+            </div>
+        </div>
+        <div class="apd-related-article">
+            <h3 class="apd-related-article-title">Related Articles</h3>
+            <div class="apd-related-article-container">
+                {% for related_post in related_posts %}
+                    <a href="{{ related_post.post.get_absolute_url }}" class="apd-related-article-card-link">
+                        <div class="apd-related-article-card">
+                            <div class="color-creation" style="{{ related_post.post.header_img }}">
+                                <p class="post-category">{{ related_post.category }}</p>
+                            </div>
+                            <div class="apd-related-article-info">
+                                <h5 class="apd-related-post-title">{{ related_post.post.title }}</h5>
+                                <p class="apd-related-post-meta">
+                                    <small>
+                                        {{ meta.pub_date }} • {% if post.reading_time <= 1 %}
+                                        < 1 min read {% else %} {{ post.reading_time }} mins read {% endif %}
+                                    </small>
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
         </div>
     </div>
+{% endblock %}
+
+{% block customizedScript %}
+    <script src="{% static 'blog/js/progress-bar.js' %}"></script>
 {% endblock %}
