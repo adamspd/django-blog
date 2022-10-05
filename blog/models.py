@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.utils.safestring import mark_safe
 from markdown2 import markdown
 
-from blog.utils import get_read_time, generate_3_backgrounds_colors
+from blog.utils import get_read_time, generate_3_backgrounds_colors, generate_rgba_color
 
 PUBLISHED = 'published'
 DRAFT = 'draft'
@@ -38,10 +38,14 @@ class Tag(models.Model):
             self.slug = slugify(self.name)
         return super().save(*args, **kwargs)
 
+    def get_absolute_url(self):
+        return reverse('blog:tag', kwargs={'slug': self.slug})
+
 
 class Category(models.Model):
     """A blog category, can be Technology, Coding, Programming which is different from a tag."""
-    name = models.CharField(max_length=100, null=True, blank=False, default="Unknown")
+    name = models.CharField(max_length=100, null=True, blank=False, default="")
+    slug = models.SlugField(max_length=150, null=True, blank=True, default="")
 
     # meta data
     created_at = models.DateTimeField(auto_now_add=True)
@@ -49,6 +53,18 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        """Saves the tag and create a slug from the name."""
+        if not self.slug:
+            self.slug = slugify(self.name)
+        return super().save(*args, **kwargs)
+
+    # def get_update_url(self):
+    #     return reverse('blog:article_update', kwargs={'pk': self.pk, 'slug': self.slug})
+
+    def get_absolute_url(self):
+        return reverse('blog:category', kwargs={'slug': self.slug})
 
 
 class BlogPost(models.Model):
@@ -60,6 +76,7 @@ class BlogPost(models.Model):
                                   default="background: rgba(238, 174, 202, 1); background: radial-gradient(circle, "
                                           "rgba(238, 174, 202, 1) 0%, rgba(148, 187, 233, 1) 100%);",
                                   max_length=255)
+    header_color = models.CharField(null=True, blank=True, default="#67d1fb", max_length=255)
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     headline = models.CharField(max_length=255, default="")
     table_content = RichTextField(default="", blank=True, null=True)
@@ -88,6 +105,7 @@ class BlogPost(models.Model):
             self.reading_time = read_time
             print("read time is ", read_time)
         self.header_img = generate_3_backgrounds_colors()
+        self.header_color = generate_rgba_color()
         return super().save(*args, **kwargs)
 
     def get_markdown(self):

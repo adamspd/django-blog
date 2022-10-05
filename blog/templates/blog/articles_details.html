@@ -14,7 +14,7 @@
     {% endif %}
     <div id="progress-bar"></div>
     <div class="apd-main-body">
-        <div class="apd-main-header" style="background: linear-gradient(to bottom, {{ header_color }} 0%, white 100%);">
+        <div class="apd-main-header" style="background: linear-gradient(to bottom, {{ post.header_color }} 0%, white 100%);">
             <div class="apd-header-container">
                 <h1 class="article-title">{{ post.title }}</h1>
                 <p class="date-posted">
@@ -31,7 +31,7 @@
                 <div class="tag">
                     {% if post.tag %}
                         {% for tag in post.tag.all %}
-                            <a href="" class="single-tag">{{ tag }}</a>
+                            <a href="{{ tag.get_absolute_url }}" class="single-tag">{{ tag }}</a>
                         {% endfor %}
                     {% endif %}
                     {% if user.is_authenticated %}

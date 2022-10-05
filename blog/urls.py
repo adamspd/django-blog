@@ -26,5 +26,6 @@ urlpatterns = [
     # path('article/edit/<int:pk>', UpdateArticle.as_view(), name='update_post'),
     # path('article/<int:pk>/delete', DeletePostView.as_view(), name='delete_post'),
     # path('add-tag/', AddTagView.as_view(), name='add_category'),
-    path('tags/<slug:slug>/', tag_detail, name='category'),
+    path('category/<slug:slug>/', category_detail, name='category'),
+    path('tag/<slug:slug>/', tag_detail, name='tag'),
 ]
