@@ -1,0 +1,215 @@
+/*.apd-header-image {*/
+/*    height: 45vh;*/
+/*    width: 70%;*/
+/*    position: relative;*/
+/*    background-repeat: no-repeat;*/
+/*    background-position: center;*/
+/*    margin: 0 auto;*/
+/*}*/
+
+/*.apd-header-text {*/
+/*    padding-top: 5px;*/
+/*    width: 70%;*/
+/*    margin: 0 auto;*/
+/*}*/
+
+/*.apd-article-body {*/
+/*    display: grid;*/
+/*    !*grid-template-columns: 1fr auto;*!*/
+/*    !*grid-gap: 25px;*!*/
+/*}*/
+
+/*!*.apd-table-contents {*!*/
+/*!*    --apd-bg-opacity: 1;*!*/
+/*!*    width: 300px !important;*!*/
+/*!*    background-color: rgb(31 41 55/var(--apd-bg-opacity));*!*/
+/*!*    height: min-content;*!*/
+/*!*    color: white;*!*/
+/*!*    padding: 10px;*!*/
+/*!*    position: fixed;*!*/
+/*!*}*!*/
+
+/*!*.apd-table-contents > ul {*!*/
+/*!*    list-style-type: none;*!*/
+/*!*    margin: 0;*!*/
+/*!*    padding: 0;*!*/
+/*!*}*!*/
+
+/*!*.apd-table-contents > ul > li > a {*!*/
+/*!*    text-decoration: none;*!*/
+/*!*    color: white;*!*/
+/*!*}*!*/
+
+/*!*.apd-blog-content-share {*!*/
+/*!*    display: -webkit-box;*!*/
+/*!*    margin-top: 10px;*!*/
+/*!*}*!*/
+
+/*!*.apd-blog-content-share > a {*!*/
+/*!*    text-decoration: none;*!*/
+/*!*    color: inherit;*!*/
+/*!*    margin-left: 5px;*!*/
+/*!*}*!*/
+
+/*!*.apd-blog-content-share > hr {*!*/
+/*!*    border: none;*!*/
+/*!*    border-top: 3px double #333;*!*/
+/*!*    color: white;*!*/
+/*!*    overflow: visible;*!*/
+/*!*    text-align: center;*!*/
+/*!*    height: 5px;*!*/
+/*!*}*!*/
+
+
+/*.apd-article-body-content {*/
+/*    width: 70%;*/
+/*    margin: 0 auto;*/
+/*}*/
+
+/*html {*/
+/*    scroll-behavior: smooth;*/
+/*}*/
+
+/*.command_line::before {*/
+/*    content: "$ ";*/
+/*}*/
+
+/*.command {*/
+/*    display: inline-block;*/
+/*    width: 100%;*/
+/*    margin: 10px 0 10px 0;*/
+/*}*/
+
+
+/*.command {*/
+/*    font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;*/
+/*    clear: both;*/
+/*    color: #fff;*/
+/*    background: #1b1b1b;*/
+/*    padding: 10px;*/
+/*    -o-tab-size: 2;*/
+/*    tab-size: 2;*/
+/*    -ms-word-break: normal;*/
+/*    word-break: normal;*/
+/*    -webkit-hyphens: none;*/
+/*    -ms-hyphens: none;*/
+/*    hyphens: none;*/
+/*    position: relative;*/
+/*    border-radius: 8px;*/
+/*    overflow: hidden;*/
+/*}*/
+
+/*@media (max-width: 1199px) {*/
+/*    .apd-article-body-content {*/
+/*        margin-left: 0;*/
+/*    }*/
+
+/*    .apd-article-body-content > p > img {*/
+/*        height: 300px !important;*/
+/*        width: auto !important;*/
+/*    }*/
+
+/*    .apd-header-image {*/
+/*        height: 45vh;*/
+/*        width: 100%;*/
+/*        margin-left: 5px;*/
+/*    }*/
+
+/*    .apd-header-text {*/
+/*        width: 100%;*/
+/*        margin-left: 5px;*/
+/*    }*/
+
+/*    .apd-article-body-content {*/
+/*        width: 100%;*/
+/*        margin: 0 auto;*/
+/*    }*/
+/*}*/
+
+/*@media (max-width: 900px) {*/
+/*    .apd-article-body-content {*/
+/*        margin-left: 0;*/
+/*    }*/
+
+/*    .apd-article-body-content > p > img {*/
+/*        height: 300px !important;*/
+/*        width: auto !important;*/
+/*    }*/
+
+/*    .apd-header-image {*/
+/*        height: 350px;*/
+/*        width: 100%;*/
+/*    }*/
+
+/*    .apd-header-text {*/
+/*        width: 100%;*/
+/*    }*/
+
+/*    .apd-article-body-content {*/
+/*        width: 100%;*/
+/*        margin: 0 auto;*/
+/*    }*/
+/*}*/
+
+/*@media (max-width: 820px) {*/
+/*    .apd-article-body-content > p > img {*/
+/*        height: 257px !important;*/
+/*        width: auto !important;*/
+/*    }*/
+
+/*    .apd-header-image {*/
+/*        height: 350px;*/
+/*        width: 100%;*/
+/*    }*/
+
+/*    .apd-header-text {*/
+/*        width: 100%;*/
+/*    }*/
+
+/*    .apd-article-body-content {*/
+/*        width: 100%;*/
+/*        margin: 0 auto;*/
+/*    }*/
+/*}*/
+
+/*@media (max-width: 470px) {*/
+/*    .apd-article-body-content > p > img {*/
+/*        height: 200px !important;*/
+/*        width: auto !important;*/
+/*    }*/
+
+/*    .apd-header-image {*/
+/*        height: 200px;*/
+/*        width: 100%;*/
+/*    }*/
+
+/*    .apd-header-text {*/
+/*        width: 100%;*/
+/*    }*/
+
+/*    .apd-article-body-content {*/
+/*        width: 100%;*/
+/*        margin: 0 auto;*/
+/*    }*/
+/*}*/
+
+/*@media (max-width: 365px) {*/
+/*    .apd-article-body-content > p > img {*/
+/*        height: 150px !important;*/
+/*        width: auto !important;*/
+/*    }*/
+
+/*    .apd-header-image {*/
+/*        height: 150px;*/
+/*        width: 100%;*/
+/*    }*/
+
+/*    .apd-header-text {*/
+/*        width: 100%;*/
+/*    }*/
+
+/*    .apd-article-body-content {*/
+/*        width: 100%;*/
+/*        margin: 0 auto;*/
+/*    }*/
+/*}*/

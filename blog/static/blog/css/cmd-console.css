@@ -1,0 +1,47 @@
+/*!
+    * Author: Antoine Neff
+    * Link: https://codepen.io/antoineneff/pen/OMegNx
+
+To make it work, you need to add the following to your HTML:
+    <div class="console">
+      <header>
+        <p>guest@antoineneff</p>
+      </header>
+      <div class="consolebody">
+        <p>> type help to see a list of commands</p>
+        <p>></p>
+      </div>
+    </div>
+*/
+
+
+.console {
+    font-family: 'Fira Mono', serif;
+    box-sizing: border-box;
+    margin: auto;
+}
+
+.console header {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    background-color: #555;
+    height: 45px;
+    line-height: 45px;
+    text-align: center;
+    color: #DDD;
+}
+
+.console .consolebody {
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    box-sizing: border-box;
+    padding: 20px;
+    height: calc(100% - 40px);
+    overflow: scroll;
+    background-color: #000;
+    color: #63de00;
+}
+
+.console .consolebody p {
+    line-height: 1.5rem;
+}

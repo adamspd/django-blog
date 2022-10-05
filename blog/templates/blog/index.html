@@ -1,0 +1,155 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block site_description %}List of all the blog post on the website.{% endblock %}
+{% block meta_robot_google %}max-snippet:-1{% endblock %}
+{% block pageCustomCSS %}
+    <link rel="stylesheet" href="{% static 'blog/css/index.css' %}">
+{% endblock %}
+{% block title %}Welcome to Adams' blog{% endblock %}
+{% block body %}
+    <br>
+    {% if first_entry is not None %}
+        <a href="{% url 'blog:article_details' pk=first_entry.post.pk slug=first_entry.post.slug %}" class="">
+            <div class="apd-last-article-container">
+                <div class="apd-article-image">
+                    <figure class="">
+                        <div class="">
+                            <div class="" style=""></div>
+                            <div class="">
+                                <img class=""
+                                     src="{% if first_entry.post.header_img %}
+                                               {{ first_entry.post.header_img.url }}
+                                          {% endif %}"
+                                     alt="
+                                             {% if first_entry.post.header_image %}{{ first_entry.post.headline }}{% endif %}">
+                            </div>
+                        </div>
+                    </figure>
+                </div>
+                <div class="apd-article-captions">
+                    <div class="">
+                        <div class="apd-article-captions-time-svg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 class="bi bi-clock" viewBox="0 0 16 16">
+                                <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"></path>
+                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"></path>
+                            </svg>
+                            {{ first_entry.pub_date }}
+                        </div>
+                        {% if first_entry.is_draft %}
+                            <h2 class="" style="color: red !important;">{{ first_entry.post.title }}</h2>
+                        {% else %}
+                            <h2 class="">{{ first_entry.post.title }}</h2>
+                        {% endif %}
+                        <p class="apd-text-base">{{ first_entry.post.headline }}</p>
+                    </div>
+                    <p class="apd-read-more">Read more
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                             class="bi bi-arrow-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                  d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"></path>
+                        </svg>
+                    </p>
+                </div>
+            </div>
+        </a>
+    {% endif %}
+
+    {% if row is not None %}
+        <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+        <div class="first_row">
+            {% for post in row %}
+                <a href="{% url 'blog:article_details' pk=post.post.pk slug=post.post.slug %}"
+                   class="apd-article-snippet-container">
+                    <div class="">
+                        <div class="">
+                            <figure class="">
+                                <div class="">
+                                    <div class="" style=""></div>
+                                    <div class="">
+                                        <img class="apd-article-snippet-image"
+                                             src="{% if post.post.header_image %}{{ post.post.header_image.url }}{% endif %}"
+                                             alt="{% if post.post.header_image %}{{ post.post.headline }}{% endif %}"
+                                             style="background: linear-gradient(to bottom, #33ccff 0%, #ff99cc 100%);">
+                                    </div>
+                                </div>
+                            </figure>
+                        </div>
+
+                        <div class="">
+                            <div class="">
+                                <div class="apd-article-captions-time-svg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                         class="bi bi-clock" viewBox="0 0 16 16">
+                                        <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"></path>
+                                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"></path>
+                                    </svg>
+                                    {{ post.date_published.date }}
+                                </div>
+                                {% if post.status == 'draft' %}
+                                    <h2 class="" style="color: red">{{ post.title }}</h2>
+                                {% else %}
+                                    <h2 class="">{{ post.title }}</h2>
+                                {% endif %}
+                                <p class="" style="text-decoration: none !important;">{{ post.snippet }}</p></div>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+
+
+    {% if rest %}
+        <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+        {% for post in rest %}
+            <div class="apd-container">
+                <div class="apd-left-column">
+                    <div class="apd-post-header-image">
+                        <img class=""
+                             src="{% if post.post.header_image %}{{ post.post.header_image.url }}{% endif %}"
+                             alt="">
+                    </div>
+                </div>
+                <div class="apd-right-column">
+                    {% if post.status == 'draft' %}
+                        <a href="{% url 'blog:article_details' pk=post.post.pk slug=post.post.slug %}"
+                           style="color: red"><h3>{{ post.post.title }}</h3></a>
+                    {% else %}
+                        <a href="{% url 'blog:article_details' pk=post.pk slug=post.slug %}"><h3>{{ post.post.title }}</h3>
+                        </a>
+                    {% endif %}
+
+
+                    <div class="apd-article-captions-time-svg">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                             class="bi bi-clock" viewBox="0 0 16 16">
+                            <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"></path>
+                            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"></path>
+                        </svg>
+                        {{ post.date_published.date }}
+                        {% if post.tag.all %}
+                            {% for tag in post.tag.all %}
+                                <a href="{% url 'blog:category' tag.slug %}"
+                                   style="text-decoration: none">#{{ tag }}</a>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+
+                    {% if user.is_authenticated %}
+                        <small>
+                            <a href="{% url 'blog:update_post' post.id %}">(Edit)</a>&nbsp;
+                            <a href="{% url 'blog:delete_post' post.id %}">(delete)</a>
+                        </small>
+                    {% endif %}
+                    {{ post.snippet }}
+                </div>
+            </div>
+            <br>
+        {% endfor %}
+
+    {% endif %}
+
+
+{% endblock %}

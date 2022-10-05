@@ -1,0 +1,63 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block title %}Tags{% endblock %}
+{% block pageCustomCSS %}{% static 'blog/css/index.css' %}{% endblock %}
+{% block site_description %}List of post corresponding a certain tag{% endblock %}
+{% block meta_robot_google %}max-snippet:-1{% endblock %}
+{% block body %}
+    <br>
+    {% if tag %}
+        <h1>{{ tag.name.title }}  </h1>
+        {% if posts %}
+            {% for post in posts %}
+                <div class="apd-container">
+                    <div class="apd-left-column">
+                        <div class="apd-post-header-image">
+                            <img class=""
+                                 src="{% if post.header_image %}{{ post.header_image.url }}{% endif %}"
+                                 alt="">
+                        </div>
+                    </div>
+                    <div class="apd-right-column">
+                        {% if post.status == 'draft' %}
+                            <a href="{% url 'blog:article_details' pk=post.pk slug=post.slug %}"
+                               style="color: red"><h3>{{ post.title }}</h3></a>
+                        {% else %}
+                            <a href="{% url 'blog:article_details' pk=post.pk slug=post.slug %}">
+                                <h3>{{ post.title }}</h3>
+                            </a>
+                        {% endif %}
+
+
+                        <div class="apd-article-captions-time-svg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 class="bi bi-clock" viewBox="0 0 16 16">
+                                <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"></path>
+                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"></path>
+                            </svg>
+                            {{ post.date_published.date }}
+                            {% if post.tag.all %}
+                                {% for tag in post.tag.all %}
+                                    <a href="{% url 'blog:category' tag.slug %}"
+                                       style="text-decoration: none">#{{ tag }}</a>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+
+                        {% if user.is_authenticated %}
+                            <small>
+                                <a href="{% url 'blog:update_post' post.id %}">(Edit)</a>&nbsp;
+                                <a href="{% url 'blog:delete_post' post.id %}">(delete)</a>
+                            </small>
+                        {% endif %}
+                        {{ post.snippet }}
+                    </div>
+                </div>
+                <br>
+            {% endfor %}
+        {% else %}
+            <h2>Sorry this tag does not exist...</h2>
+        {% endif %}
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,306 @@
+/*!
+    * Language: css
+    * Author: Adams Pierre David
+    * Date: 2021-07-01
+    * Description: CSS for article details page
+    * Version: 1.0
+    * License: MIT
+    * Contact: https://www.adamspierredavid/contact-me/
+    * Github: https://www.github.com/adamspd
+ */
+
+/* Article details page */
+
+:root {
+    --progress: 0;
+    --divWidth: 0;
+}
+
+/* Layout definition */
+.apd-main-body {
+    min-height: 65vh;
+    display: grid;
+    grid-template-rows: 1fr 4fr;
+    max-width: 1750px;
+    align-content: center;
+    justify-items: center;
+}
+
+.apd-main-header {
+    height: 350px;
+    background: linear-gradient(to bottom, #67d1fb 0%, white 100%);
+    top: 0;
+    margin-top: -1px;
+    width: 100%;
+}
+
+.apd-main-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    height: auto;
+}
+
+/* header definition */
+.apd-header-container {
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+.article-title {
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 100px;
+}
+
+.date-posted {
+    text-align: center;
+}
+
+.tag {
+    text-align: center;
+}
+
+.single-tag {
+    background: rgb(239, 242, 251);
+    border-radius: 8px;
+    color: rgb(77, 91, 124);
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.71429;
+    margin: 4px 8px 4px 0;
+    padding: 0 8px;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.15s linear 0s, color 0.15s linear 0s;
+}
+
+.single-tag:hover {
+    background: rgb(18, 83, 250);
+    color: rgb(255, 255, 255);
+}
+
+/* Table of contents */
+.apd-left-column {
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+.apd-mobile-tablet {
+    display: none;
+}
+
+.apd-table-contents {
+    height: min-content;
+    padding: 10px;
+    max-width: 340px;
+    min-width: 235px;
+}
+
+.apd-table-content-title {
+    color: rgb(77, 91, 124);
+    font-family: "JetBrains Mono", monospace;
+    font-weight: 550;
+    font-size: 17px;
+    line-height: 1.5;
+    margin: 0 0 16px;
+}
+
+.apd-table-contents > ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.apd-table-contents > ul > li > a {
+    text-decoration: none;
+    color: rgb(91, 105, 135);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 28px;
+}
+
+/* Marketing column */
+.apd-right-column {
+    margin-left: 20px;
+    margin-right: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.apd-share {
+    color: rgb(77, 91, 124);
+    font-family: "JetBrains Mono", monospace;
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 1.5;
+    margin: 0 0 16px;
+}
+
+.sharing-element {
+    text-decoration: none;
+    height: 40px;
+    width: 40px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+/* Fixed table of content when scrolled top reached 29% */
+.apd-fixed {
+    position: fixed;
+    top: 100px;
+    max-width: 235px;
+}
+
+/* Article content */
+
+.apd-main-column {
+    max-width: 800px;
+}
+
+/* Progress bar */
+
+#progress-bar {
+    position: fixed;
+    margin-top: -1px;
+    height: 6px;
+    width: var(--progress);
+    background-color: #6125fd;
+}
+
+
+/* Related articles */
+.apd-related-article {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    max-width: 80rem;
+    width: 100%;
+}
+
+.apd-related-article-title {
+    color: rgb(3, 27, 78);
+    font-size: 40px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    line-height: 110%;
+    margin: 30px auto 60px;
+    text-align: center;
+}
+
+.apd-related-article-container {
+    display: flex;
+    gap: 22px;
+    width: 100%;
+    justify-content: center;
+}
+
+.apd-related-article-card {
+    background-color: rgb(255, 255, 255);
+    border-radius: 24px;
+    box-shadow: rgba(11, 43, 158, 0.15) 0 6px 20px -6px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    text-decoration: none;
+    transition: all 0.5s ease 0s;
+    width: 300px;
+    z-index: -1;
+}
+
+.apd-related-article-card-link {
+    color: rgba(1, 4, 16, 0.93);
+    line-height: 1.5;
+    margin: 0;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.color-creation {
+    height: 200px;
+}
+
+.post-category {
+    color: rgb(24, 1, 1);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    line-height: 1.5;
+    margin: 0;
+    padding: 10px 15px;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.6);
+}
+
+.apd-related-article-info {
+    height: 150px;
+}
+
+.apd-related-post-title {
+    color: rgba(4, 13, 31, 0.92);
+    font-size: 20px;
+    letter-spacing: -1px;
+    line-height: 110%;
+    margin: 0;
+    padding: 10px 15px;
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.6);
+}
+
+.apd-related-post-meta {
+    color: rgba(4, 13, 31, 0.92);
+    line-height: 1.5;
+    margin: 30px 0 0;
+    padding: 10px 15px;
+    text-shadow: 1px 1px 1px rgba(253, 237, 216, 0.6);
+
+    /* fixed to bottom container */
+    position: absolute;
+    bottom: 0;
+}
+
+.apd-related-article-card:hover {
+    box-shadow: rgba(11, 43, 158, 0.15) 0 6px 20px -6px;
+    transform: scale(1.05);
+}
+
+/* Command line simulation */
+html {
+    scroll-behavior: smooth;
+}
+
+.command_line::before {
+    content: "$ ";
+}
+
+.command {
+    display: inline-block;
+    width: 100%;
+    margin: 10px 0 10px 0;
+}
+
+
+.command {
+    font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+    clear: both;
+    color: #fff;
+    background: #1b1b1b;
+    padding: 10px;
+    -o-tab-size: 2;
+    tab-size: 2;
+    -ms-word-break: normal;
+    word-break: normal;
+    -webkit-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    z-index: -1;
+}
+

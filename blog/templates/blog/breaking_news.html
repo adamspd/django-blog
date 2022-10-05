@@ -1,0 +1,63 @@
+<div class="apd-breaking-news-container">
+    <div class="apd-breaking-news-ticker">
+        <div class="apd-breaking-news-title">
+            <h6>{{ breaking_news.title }}</h6>
+        </div>
+        <div class="apd-breaking-news-news">
+            <marquee behavior="" direction="left">
+                <p>{{ breaking_news.content }}</p>
+            </marquee>
+        </div>
+    </div>
+</div>
+
+<style>
+    .apd-breaking-news-container {
+        width: 100%;
+        height: 50px;
+        background-color: rgba(0, 0, 0, 0.75);
+        color: #fff;
+        padding: 10px 0;
+        margin-top: -1px;
+        position: fixed;
+    }
+
+    .apd-breaking-news-ticker {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+    }
+
+    .apd-breaking-news-title {
+        width: 200px;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #fff;
+        color: #000;
+        margin-right: 10px;
+    }
+
+    .apd-breaking-news-news {
+        width: calc(100% - 200px);
+        height: 100%;
+        display: flex;
+        align-items: center;
+    }
+
+    .apd-breaking-news-news p {
+        margin: 0;
+    }
+
+    @media screen and (max-width: 400px) {
+        .apd-breaking-news-title {
+            display: none;
+        }
+
+        .apd-breaking-news-news {
+            width: 100%;
+        }
+    }
+</style>

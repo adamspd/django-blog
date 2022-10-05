@@ -1,0 +1,20 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block pageCustomCSS %}{% static 'blog/css/add_post.css' %}{% endblock %}
+{% block title %}Delete blog post{% endblock %}
+
+{% block body %}
+    <div class="apd-form">
+        <h3 style="color: red">Delete {{ post.title }}</h3>
+        <br><br>
+        <div class="form-group">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <strong>Are you sure ?</strong><br><br>
+                <a href="{% url 'blog:home' %}" class="btn btn-success">Cancel</a>
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+        </div>
+    </div>
+    <br><br>
+{% endblock %}

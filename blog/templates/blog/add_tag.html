@@ -1,0 +1,19 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block pageCustomCSS %}{% static 'blog/css/add_post.css' %}{% endblock %}
+{% block title %}Create new tag{% endblock %}
+
+{% block body %}
+    <div class="apd-form">
+        <h1>Add Tags</h1>
+        <br><br>
+        <div class="form-group">
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Add Category</button>
+            </form>
+        </div>
+    </div>
+    <br><br>
+{% endblock %}

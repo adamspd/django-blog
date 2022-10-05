@@ -1,0 +1,146 @@
+/*!
+    * Language: css
+    * Author: Adams Pierre David
+    * Date: 2021-07-01
+    * Description: CSS for article details page
+    * Version: 1.0
+    * License: MIT
+    * Contact: https://www.adamspierredavid/contact-me/
+    * Github: https://www.github.com/adamspd
+ */
+
+/* Article details page | Responsive rules */
+@media only screen and (max-width: 1235px) {
+    .apd-right-column {
+        display: none;
+    }
+
+    .apd-main-column {
+        max-width: 680px;
+    }
+}
+
+@media only screen and (max-width: 1115px) {
+    .apd-main-body {
+        width: 100%;
+        display: flex;
+        flex-flow: column wrap;
+    }
+
+    .apd-right-column {
+        display: block;
+    }
+
+    .apd-main-header {
+        width: 100%;
+    }
+
+    .apd-header-container {
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .apd-main-container {
+        width: 100%;
+        display: flex;
+        flex-flow: column wrap;
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+
+    .apd-fixed {
+        position: relative;
+        width: 100%;
+        top: 0;
+    }
+
+    .apd-left-column {
+        width: 100%;
+        margin: 0;
+    }
+
+    .apd-mobile-tablet {
+        display: flex;
+        height: 5px;
+    }
+
+    .apd-main-column {
+        width: 100%;
+        margin: 0;
+    }
+
+    .apd-table-content-title {
+        font-weight: 600;
+    }
+
+    .apd-table-contents > ul > li > a {
+        font-weight: 500;
+    }
+
+    .apd-table-contents {
+        max-width: 400px;
+        margin: 0;
+    }
+
+    .apd-right-column {
+        width: 100%;
+        margin: 50px 0;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .apd-share {
+        font-weight: 600;
+    }
+
+    .sharing-element {
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+    .apd-share-line {
+        display: none;
+    }
+
+    .apd-related-article-container {
+        display: flex;
+        flex-flow: column wrap;
+        gap: 22px;
+        width: 100%;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+
+    .apd-related-article-card {
+        width: 400px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .apd-main-container {
+        width: 100%;
+        display: flex;
+        flex-flow: column wrap;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .apd-related-article-container {
+        display: flex;
+        flex-flow: column wrap;
+        gap: 22px;
+        width: 100%;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+
+    .apd-related-article-card {
+        width: 300px
+    }
+}
+
+@media screen and (max-width: 300px) {
+    .apd-related-article-card {
+        width: 280px
+    }
+}
