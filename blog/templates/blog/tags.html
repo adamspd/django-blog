@@ -1,16 +1,20 @@
 {% extends 'blog/base.html' %}
 {% load static %}
-{% block title %}Tags{% endblock %}
+{% block title %}Tags | {{ tag.slug.title }}{% endblock %}
 {% block pageCustomCSS %}
     <link rel="stylesheet" href="{% static 'blog/css/index.css' %}">
     <link rel="stylesheet" href="{% static 'blog/css/article_list.css' %}">
+    <link rel="stylesheet" href="{% static 'blog/css/title_and_tagline.css' %}">
 {% endblock %}
 {% block site_description %}List of post corresponding a certain tag{% endblock %}
 {% block meta_robot_google %}max-snippet:-1{% endblock %}
 {% block body %}
-    <div class="container">
+    <div class="container standard-height">
         {% if tag %}
-            <h1>{{ tag.name.title }}  </h1>
+            <div class="apd-title">
+                <h2>{{ tag.name.title }}</h2>
+            </div>
+
             {% if posts %}
                 {% for post in posts %}
                     <div class="container">
@@ -18,11 +22,11 @@
                             <h4>{{ post.title }}</h4>
                             <p>{{ post.headline|truncatechars:200|safe }}</p>
                             <div>
-                                <div class="more label"><a href="#">Read more</a></div>
+                                <div class="more label stage"><a href="{{ post.get_absolute_url }}">Read more</a></div>
                                 <div class="tags">
                                     {% for tag in post.tag.all %}
-                                        <span class="btn-info">
-                                            <a href="#">{{ tag.name }}</a>
+                                        <span class="btn-info" style="background-color: {{ tag.tag_color }}">
+                                            <a href="{{ tag.get_absolute_url }}">{{ tag.name }}</a>
                                         </span>
                                     {% endfor %}
                                 </div>

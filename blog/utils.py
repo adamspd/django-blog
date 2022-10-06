@@ -28,6 +28,13 @@ def generate_rgba_color():
     return f'rgba({r}, {g}, {b}, {a})'
 
 
+def generate_rgb_color():
+    r = random.randint(0, 255)
+    g = random.randint(0, 255)
+    b = random.randint(0, 255)
+    return f'rgba({r}, {g}, {b})'
+
+
 def generate_3_backgrounds_colors():
     colors = []
     for i in range(3):

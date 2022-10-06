@@ -63,9 +63,9 @@ def view_one_article(request, pk, slug):
 
 
 def category_detail(request, slug):
-    tag = Category.objects.get(slug__iexact=slug)
-    posts = BlogEntry.objects.all().filter(category=tag).order_by('-updated_at')
-    return render(request, 'blog/category.html', {'tag': tag, 'posts': posts})
+    category = Category.objects.get(slug__iexact=slug)
+    posts = BlogEntry.objects.all().filter(category=category).order_by('-updated_at')
+    return render(request, 'blog/category.html', {'category': category, 'posts': posts})
 
 
 def tag_detail(request, slug):
@@ -79,4 +79,3 @@ def search(request):
     posts = Post.objects.filter(status=PUBLISHED).filter(
         Q(title__icontains=query) | Q(snippet__icontains=query) | Q(body__icontains=query))
     return render(request, 'blog/search.html', {'query': query, 'posts': posts})
-

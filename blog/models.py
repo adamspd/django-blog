@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.utils.safestring import mark_safe
 from markdown2 import markdown
 
-from blog.utils import get_read_time, generate_3_backgrounds_colors, generate_rgba_color
+from blog.utils import get_read_time, generate_3_backgrounds_colors, generate_rgba_color, generate_rgb_color
 
 PUBLISHED = 'published'
 DRAFT = 'draft'
@@ -37,6 +37,7 @@ class Tag(models.Model):
         """Saves the tag and create a slug from the name."""
         if not self.slug:
             self.slug = slugify(self.name)
+        self.tag_color = generate_rgb_color()
         return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -47,6 +48,7 @@ class Category(models.Model):
     """A blog category, can be Technology, Coding, Programming which is different from a tag."""
     name = models.CharField(max_length=100, null=True, blank=False, default="")
     slug = models.SlugField(max_length=150, null=True, blank=True, default="")
+    category_color = models.CharField(max_length=255, default=generate_rgba_color, null=True, blank=True)
 
     # meta data
     created_at = models.DateTimeField(auto_now_add=True)
@@ -59,6 +61,7 @@ class Category(models.Model):
         """Saves the tag and create a slug from the name."""
         if not self.slug:
             self.slug = slugify(self.name)
+        self.tag_color = generate_rgb_color()
         return super().save(*args, **kwargs)
 
     # def get_update_url(self):

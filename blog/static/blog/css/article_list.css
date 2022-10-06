@@ -1,25 +1,83 @@
-.clear {
-    clear:both;
+@import url(https://fonts.googleapis.com/css?family=Lato:400,300);
+@import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css);
+
+.span8 {
+    font-family: 'Lato', sans-serif;
 }
+
+.clear {
+    clear: both;
+}
+
 .btn-info {
-    margin-right:10px;
+    margin-right: 10px;
     padding: 2px 5px;
-    display:block;
-    float:left;
+    display: block;
+    float: left;
     background-color: #3461b9;
     border-radius: 20px;
 }
+
 .btn-info:hover {
     background-color: #0659f8;
     transform: scale(1.05);
 }
+
 .btn-info a {
-    display:block;
-    text-decoration:none;
-    width:100%;
-    height:100%;
+    display: block;
+    text-decoration: none;
+    width: 100%;
+    height: 100%;
     color: #ffffff;
+    text-shadow: 0.5px 0.5px 0.5px rgba(3, 3, 3, 0.6);
 }
+
+.btn-info a:hover {
+    color: #ffffff;
+    text-shadow: 0.5px 0.5px 0.5px rgba(3, 3, 3, 0.8);
+}
+
 .more.label {
-    float:right;
+    float: right;
+}
+
+.stage {
+    text-align: center;
+}
+
+.stage a {
+    line-height: 0.5em;
+    letter-spacing: 0.06em;
+    font-family: 'Lato', sans-serif;
+    font-weight: normal;
+    font-size: 14px;
+    text-decoration: none;
+    color: #fff;
+    background: #231f20;
+    display: inline-block;
+    padding-top: 10px;
+    padding-right: 5px;
+    padding-left: 8px;
+    padding-bottom: 10px;
+    transition: background 200ms;
+    border-radius: 4px;
+}
+
+.stage a:hover {
+    background: #5279ce;
+}
+
+.stage a:after {
+    font-family: 'FontAwesome', sans-serif;
+    font-weight: 300;
+    content: "\f105";
+    margin-left: 20px;
+    color: #5279ce;
+    font-size: 18px;
+    vertical-align: middle;
+    transition: color 200ms;
+}
+
+.stage a:hover:after {
+    color: #231f20;
 }

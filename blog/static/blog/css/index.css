@@ -1,3 +1,6 @@
+.standard-height {
+    min-height: 30vh;
+}
 .apd-header-image {
     height: 45vh;
     width: auto;
