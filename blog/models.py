@@ -21,6 +21,7 @@ class Tag(models.Model):
     """A tag can be #docker, #ubuntu or #kubernetes which is different from a category."""
     name = models.CharField(max_length=255, default="#", )
     slug = models.SlugField(max_length=150, null=True, blank=True, default="")
+    tag_color = models.CharField(max_length=255, default=generate_rgba_color, null=True, blank=True)
 
     # meta data
     created_at = models.DateTimeField(auto_now_add=True)

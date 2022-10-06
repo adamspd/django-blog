@@ -1,0 +1,25 @@
+.clear {
+    clear:both;
+}
+.btn-info {
+    margin-right:10px;
+    padding: 2px 5px;
+    display:block;
+    float:left;
+    background-color: #3461b9;
+    border-radius: 20px;
+}
+.btn-info:hover {
+    background-color: #0659f8;
+    transform: scale(1.05);
+}
+.btn-info a {
+    display:block;
+    text-decoration:none;
+    width:100%;
+    height:100%;
+    color: #ffffff;
+}
+.more.label {
+    float:right;
+}
