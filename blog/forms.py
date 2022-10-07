@@ -1,5 +1,16 @@
+"""
+@author: Adams Pierre David
+@contact: https://adamspierredavid.com/contact
+@website: https://adamspierredavid.com
+@license: MIT
+@version: 1.0.0
+@created: 2022-08-01
+@updated: 2022-10-07
+@description: blog application forms.
+"""
+
 from django import forms
-from blog.models import Tag, BlogPost as Post, Category, BlogEntry
+from blog.models import Tag, BlogPost as Post, Category, BlogEntry, BreakingNews
 
 choices = Tag.objects.all().values_list('name', 'name')
 
@@ -68,3 +79,14 @@ class PublishedPostForm(forms.ModelForm):
             'status': forms.Select(attrs={'class': 'form-control'}),
             'category': forms.Select(attrs={'class': 'form-control'}),
         }
+
+
+class AddBreakingNewsForm(forms.ModelForm):
+    class Meta:
+        model = BreakingNews
+        fields = ('title', 'content', 'is_active')
+
+        widgets = {
+            'breaking_news': forms.CheckboxInput(attrs={'class': 'form-control'}),
+        }
+

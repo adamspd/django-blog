@@ -221,6 +221,10 @@ class BreakingNews(models.Model):
     content = models.TextField(default="")
     is_active = models.BooleanField(default=False)
 
+    # meta data
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
+
     def __str__(self):
         return self.title
 

@@ -1,30 +1,31 @@
-{% extends 'blog/base.html' %}
+{% extends 'blog/base/base.html' %}
 {% load static %}
-{% block title %}Tags | {{ tag.slug.title }}{% endblock %}
+{% block title %}Category | {{ category.name.title }}{% endblock %}
 {% block pageCustomCSS %}
     <link rel="stylesheet" href="{% static 'blog/css/index.css' %}">
     <link rel="stylesheet" href="{% static 'blog/css/article_list.css' %}">
     <link rel="stylesheet" href="{% static 'blog/css/title_and_tagline.css' %}">
 {% endblock %}
-{% block site_description %}List of post corresponding a certain tag{% endblock %}
+{% block site_description %}List of post corresponding a certain category{% endblock %}
 {% block meta_robot_google %}max-snippet:-1{% endblock %}
 {% block body %}
     <div class="container standard-height">
-        {% if tag %}
+        {% if category %}
             <div class="apd-title">
-                <h2>{{ tag.name.title }}</h2>
+                <h2>{{ category.name.title }}</h2>
             </div>
 
             {% if posts %}
                 {% for post in posts %}
                     <div class="container">
                         <div class="span8">
-                            <h4>{{ post.title }}</h4>
-                            <p>{{ post.headline|truncatechars:200|safe }}</p>
+                            <h4>{{ post.post.title }}</h4>
+                            <p>{{ post.post.headline|truncatechars:200|safe }}</p>
                             <div>
-                                <div class="more label stage"><a href="{{ post.get_absolute_url }}">Read more</a></div>
+                                <div class="more label stage"><a href="{{ post.post.get_absolute_url }}">Read more</a>
+                                </div>
                                 <div class="tags">
-                                    {% for tag in post.tag.all %}
+                                    {% for tag in post.post.tag.all %}
                                         <span class="btn-info" style="background-color: {{ tag.tag_color }}">
                                             <a href="{{ tag.get_absolute_url }}">{{ tag.name }}</a>
                                         </span>
@@ -37,7 +38,7 @@
                     </div>
                 {% endfor %}
             {% else %}
-                <h5>Sorry this tag does not exist or there is no article related to it...</h5>
+                <h2>Sorry this tag does not exist...</h2>
             {% endif %}
         {% endif %}
     </div>

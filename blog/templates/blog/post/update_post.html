@@ -1,23 +1,24 @@
-{% extends 'blog/base.html' %}
+{% extends 'blog/base/base.html' %}
 {% load static %}
 {% block pageCustomCSS %}
     <link rel="stylesheet" href="{% static 'blog/css/add_post.css' %}">
 {% endblock %}
-{% block title %}Create new blog post{% endblock %}
+{% block title %}Update blog post{% endblock %}
 
 {% block body %}
     <div class="container">
         <div class="apd-form">
-            <h1>Add Post</h1>
+            <h1>Update Post</h1>
             <br><br>
             <div class="form-group">
                 <form action="" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form.media }}
                     {{ form.as_p }}
-                    <button type="submit" class="btn btn-primary">Post</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
                 </form>
             </div>
         </div>
     </div>
+    <br><br>
 {% endblock %}

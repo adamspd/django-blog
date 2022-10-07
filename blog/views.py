@@ -4,7 +4,7 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q
 from django.shortcuts import render, redirect
 
-from blog.forms import AddTagForm, AddCategoryForm, PostForm, PublishedPostForm
+from blog.forms import AddTagForm, AddCategoryForm, PostForm, PublishedPostForm, AddBreakingNewsForm
 from blog.models import BlogPost as Post, Tag, PUBLISHED, DRAFT, BlogEntry, Category, BreakingNews
 from blog.utils import generate_rgba_color
 
@@ -43,7 +43,7 @@ def view_all_article(request):
         'tag_list': tag_list,
         'posts': paginate_posts(request=request, posts=posts, num=10),
     }
-    return render(request, "blog/index.html", context=context)
+    return render(request, "blog/base/index.html", context=context)
 
 
 def view_one_article(request, pk, slug):
@@ -66,7 +66,7 @@ def view_one_article(request, pk, slug):
         context['breaking_news'] = breaking_news[0]
 
     print(breaking_news)
-    return render(request=request, template_name='blog/articles_details.html', context=context)
+    return render(request=request, template_name='blog/post/articles_details.html', context=context)
 
 
 @login_required
@@ -78,7 +78,7 @@ def add_article(request):
             return redirect('blog:publish_article', pk=form.instance.pk)
     else:
         form = PostForm()
-    return render(request, 'blog/add_post.html', {'form': form})
+    return render(request, 'blog/post/add_post.html', {'form': form})
 
 
 @login_required
@@ -91,7 +91,7 @@ def update_article(request, pk):
             return redirect('blog:publish_article', pk=form.instance.pk)
     else:
         form = PostForm(instance=post)
-    return render(request, 'blog/update_post.html', {'form': form})
+    return render(request, 'blog/post/update_post.html', {'form': form})
 
 
 @login_required(login_url='/admin/')
@@ -107,7 +107,7 @@ def publish_article(request, pk):
         'page_title': 'Publish Post',
         'button_text': 'Publish',
     }
-    return render(request, 'blog/publish_post.html', context=context)
+    return render(request, 'blog/post/publish_post.html', context=context)
 
 
 @login_required(login_url='/admin/')
@@ -141,7 +141,7 @@ def category_details(request, slug):
         'category': category,
         'posts': paginate_posts(request=request, posts=posts, num=10),
     }
-    return render(request, 'blog/category.html', context=context)
+    return render(request, 'blog/tags_categories/category.html', context=context)
 
 
 @login_required(login_url='/admin/')
@@ -156,7 +156,7 @@ def add_category(request):
         'button': 'Add Category',
         'page_title': 'Add Category',
     }
-    return render(request, 'blog/add_category.html', context=context)
+    return render(request, 'blog/tags_categories/add_category.html', context=context)
 
 
 @login_required(login_url='/admin/')
@@ -172,7 +172,7 @@ def update_category(request, pk):
         'button': 'Edit Category',
         'page_title': 'Edit Category',
     }
-    return render(request, 'blog/add_category.html', context=context)
+    return render(request, 'blog/tags_categories/add_category.html', context=context)
 
 
 def view_all_category(request):
@@ -180,7 +180,7 @@ def view_all_category(request):
     context = {
         'categories': categories,
     }
-    return render(request, 'blog/list_tags_or_category.html', context=context)
+    return render(request, 'blog/tags_categories/list_tags_or_category.html', context=context)
 
 
 @login_required(login_url='/admin/')
@@ -200,7 +200,7 @@ def tag_details(request, slug):
         'tag': tag,
         'posts': paginate_posts(request=request, posts=posts, num=10),
     }
-    return render(request, 'blog/tags.html', context=context)
+    return render(request, 'blog/tags_categories/tags.html', context=context)
 
 
 @login_required(login_url='/admin/')
@@ -215,7 +215,7 @@ def add_tag(request):
         'button': 'Add Tag',
         'page_title': 'Add Tag',
     }
-    return render(request, 'blog/add_tag.html', context=context)
+    return render(request, 'blog/tags_categories/add_tag.html', context=context)
 
 
 @login_required(login_url='/admin/')
@@ -231,7 +231,7 @@ def update_tag(request, pk):
         'button': 'Edit Tag',
         'page_title': 'Edit Tag',
     }
-    return render(request, 'blog/add_tag.html', context=context)
+    return render(request, 'blog/tags_categories/add_tag.html', context=context)
 
 
 def view_all_tags(request):
@@ -239,7 +239,7 @@ def view_all_tags(request):
     context = {
         'tags': tags,
     }
-    return render(request, 'blog/list_tags_or_category.html', context=context)
+    return render(request, 'blog/tags_categories/list_tags_or_category.html', context=context)
 
 
 @login_required(login_url='/admin/')
@@ -252,6 +252,63 @@ def delete_tag(request, pk):
         return redirect('blog:view_all_tags')
 
 
+def view_breaking_news(request):
+    breaking_news = BreakingNews.objects.all().order_by('-updated_at')
+    context = {
+        'breaking_news': breaking_news,
+    }
+    return render(request, 'blog/breaking_news/view.html', context=context)
+
+
+def details_breaking_news(request, pk):
+    breaking_news = BreakingNews.objects.get(pk=pk)
+    context = {
+        'breaking_news': breaking_news,
+    }
+    return render(request, 'blog/breaking_news/details.html', context=context)
+
+
+@login_required(login_url='/admin/')
+def add_breaking_news(request):
+    form = AddBreakingNewsForm(request.POST or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            return redirect('blog:view_breaking_news')
+    context = {
+        'form': form,
+        'button': 'Add Breaking News',
+        'page_title': 'Add Breaking News',
+    }
+    return render(request, 'blog/breaking_news/add.html', context=context)
+
+
+@login_required(login_url='/admin/')
+def update_breaking_news(request, pk):
+    breaking_news = BreakingNews.objects.get(pk=pk)
+    form = AddBreakingNewsForm(request.POST or None, instance=breaking_news)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            return redirect('blog:view_breaking_news')
+    context = {
+        'form': form,
+        'button': 'Edit Breaking News',
+        'page_title': 'Edit Breaking News',
+    }
+    return render(request, 'blog/breaking_news/add.html', context=context)
+
+
+@login_required(login_url='/admin/')
+def delete_breaking_news(request, pk):
+    try:
+        breaking_news = BreakingNews.objects.get(pk=pk)
+        breaking_news.delete()
+        return redirect('blog:view_breaking_news')
+    except BreakingNews.DoesNotExist:
+        return redirect('blog:view_breaking_news')
+
+
 def search(request):
     query = request.GET.get('query', '')
     posts = Post.objects.filter(blogentry__status=PUBLISHED).filter(
@@ -261,7 +318,7 @@ def search(request):
         'posts': paginate_posts(request=request, posts=posts, num=10),
         'query': query,
     }
-    return render(request, 'blog/search.html', context=context)
+    return render(request, 'blog/base/search.html', context=context)
 
 
 def sign_out(request):

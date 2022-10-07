@@ -46,20 +46,20 @@ article_patterns = [
     path('unpublish/<int:pk>/', unpublished_article, name='unpublished'),
 ]
 
-# breaking_news_patterns = [
-#     path('add/', add_breaking_news, name='add_breaking_news'),
-#     path('details/<int:pk>/', breaking_news_details, name='breaking_news_details'),
-#     path('list/', view_all_breaking_news, name='view_all_breaking_news'),
-#     path('update/<int:pk>/', update_breaking_news, name='update_breaking_news'),
-#     path('delete/<int:pk>/', delete_breaking_news, name='delete_breaking_news'),
-# ]
+breaking_news_patterns = [
+    path('add/', add_breaking_news, name='add_breaking_news'),
+    path('details/<int:pk>/', details_breaking_news, name='breaking_news_details'),
+    path('list/', view_breaking_news, name='view_breaking_news'),
+    path('update/<int:pk>/', update_breaking_news, name='update_breaking_news'),
+    path('delete/<int:pk>/', delete_breaking_news, name='delete_breaking_news'),
+]
 
 urlpatterns = [
     path('', view_all_article, name='home'),
     path('article/', include(article_patterns)),
     path('tag/', include(tag_patterns)),
     path('category/', include(category_patterns)),
-    # path('breaking-news/', include(breaking_news_patterns)),
+    path('breaking-news/', include(breaking_news_patterns)),
     path('search/', search, name='search'),
     path('logout/', sign_out, name='logout'),
 ]

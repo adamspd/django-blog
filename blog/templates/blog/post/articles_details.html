@@ -1,4 +1,4 @@
-{% extends 'blog/base.html' %}
+{% extends 'blog/base/base.html' %}
 {% load static %}
 {% block pageCustomCSS %}
     <link rel="stylesheet" href="{% static 'blog/css/article_details_new.css' %}">
@@ -10,7 +10,7 @@
 {% block title %}{{ post.title }}{% endblock %}
 {% block body %}
     {% if breaking_news %}
-        {% include 'blog/breaking_news.html' %}
+        {% include 'blog/breaking_news/breaking_news.html' %}
     {% endif %}
     <div id="progress-bar"></div>
     <div class="apd-main-body">
