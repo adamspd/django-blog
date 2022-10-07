@@ -36,11 +36,11 @@
                         <a href="" class="nav-link">Create Post</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">Add Tag</a>
+                        <a href="{% url 'blog:add_tag' %}" class="nav-link">Add Tag</a>
                     </li>
-                    {% comment %}<li class="nav-item">
+                    <li class="nav-item">
                         <a href="{% url 'blog:add_category' %}" class="nav-link">Add Category</a>
-                    </li>{% endcomment %}
+                    </li>
                 {% endif %}
             </ul>
             <form class="d-flex" role="search" method="get" action="#">

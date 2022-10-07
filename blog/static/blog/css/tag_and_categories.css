@@ -13,9 +13,14 @@
     text-align: center;
     text-decoration: none;
     transition: background 0.15s linear 0s, color 0.15s linear 0s;
+    white-space: nowrap;
 }
 
 .single-tag:hover {
     background: rgb(18, 83, 250);
     color: rgb(255, 255, 255);
+}
+
+#text {
+    display: none;
 }

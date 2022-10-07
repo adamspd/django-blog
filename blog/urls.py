@@ -13,19 +13,49 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-from django.urls import path
+from django.urls import path, include
 
 from blog.views import *
 
 app_name = 'blog'
 
+# Extra patterns
+category_patterns = [
+    path('add/', add_category, name='add_category'),
+    path('details/<slug:slug>/', category_details, name='category_details'),
+    path('list/', view_all_category, name='list_category'),
+    path('update/<int:pk>/', update_category, name='update_category'),
+    path('delete/<int:pk>/', delete_category, name='delete_category'),
+]
+
+tag_patterns = [
+    path('add/', add_tag, name='add_tag'),
+    path('details/<slug:slug>/', tag_details, name='tag_details'),
+    path('list/', view_all_tags, name='view_all_tags'),
+    path('update/<int:pk>/', update_tag, name='edit_tag'),
+    path('delete/<int:pk>/', delete_tag, name='delete_tag'),
+]
+
+article_patterns = [
+    path('<int:pk>/<slug:slug>/', view_one_article, name='article_details'),
+    # path('add/', add_article, name='add_article'),
+    # path('update/<int:pk>/', update_article, name='update_article'),
+    # path('delete/<int:pk>/', delete_article, name='delete_article'),
+]
+
+# breaking_news_patterns = [
+#     path('add/', add_breaking_news, name='add_breaking_news'),
+#     path('details/<int:pk>/', breaking_news_details, name='breaking_news_details'),
+#     path('list/', view_all_breaking_news, name='view_all_breaking_news'),
+#     path('update/<int:pk>/', update_breaking_news, name='update_breaking_news'),
+#     path('delete/<int:pk>/', delete_breaking_news, name='delete_breaking_news'),
+# ]
+
 urlpatterns = [
     path('', view_all_article, name='home'),
-    path('article/<int:pk>/<slug:slug>/', view_one_article, name='article_details'),
-    # path('add-post/', CreateArticle.as_view(), name='add_post'),
-    # path('article/edit/<int:pk>', UpdateArticle.as_view(), name='update_post'),
-    # path('article/<int:pk>/delete', DeletePostView.as_view(), name='delete_post'),
-    # path('add-tag/', AddTagView.as_view(), name='add_category'),
-    path('category/<slug:slug>/', category_detail, name='category'),
-    path('tag/<slug:slug>/', tag_detail, name='tag'),
+    path('article/', include(article_patterns)),
+    path('tag/', include(tag_patterns)),
+    path('category/', include(category_patterns)),
+    # path('breaking-news/', include(breaking_news_patterns)),
+    path('search/', search, name='search'),
 ]

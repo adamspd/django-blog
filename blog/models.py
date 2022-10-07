@@ -19,7 +19,7 @@ CHOICE_STATUS = (
 
 class Tag(models.Model):
     """A tag can be #docker, #ubuntu or #kubernetes which is different from a category."""
-    name = models.CharField(max_length=255, default="#", )
+    name = models.CharField(max_length=255, default="#", unique=True)
     slug = models.SlugField(max_length=150, null=True, blank=True, default="")
     tag_color = models.CharField(max_length=255, default=generate_rgba_color, null=True, blank=True)
 
@@ -41,12 +41,12 @@ class Tag(models.Model):
         return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('blog:tag', kwargs={'slug': self.slug})
+        return reverse('blog:tag_details', kwargs={'slug': self.slug})
 
 
 class Category(models.Model):
     """A blog category, can be Technology, Coding, Programming which is different from a tag."""
-    name = models.CharField(max_length=100, null=True, blank=False, default="")
+    name = models.CharField(max_length=100, null=True, blank=False, default="", unique=True)
     slug = models.SlugField(max_length=150, null=True, blank=True, default="")
     category_color = models.CharField(max_length=255, default=generate_rgba_color, null=True, blank=True)
 
@@ -68,7 +68,7 @@ class Category(models.Model):
     #     return reverse('blog:article_update', kwargs={'pk': self.pk, 'slug': self.slug})
 
     def get_absolute_url(self):
-        return reverse('blog:category', kwargs={'slug': self.slug})
+        return reverse('blog:category_details', kwargs={'slug': self.slug})
 
 
 class BlogPost(models.Model):

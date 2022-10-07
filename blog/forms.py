@@ -1,5 +1,5 @@
 from django import forms
-from blog.models import Tag, BlogPost as Post
+from blog.models import Tag, BlogPost as Post, Category
 
 choices = Tag.objects.all().values_list('name', 'name')
 
@@ -35,4 +35,24 @@ class UpdateForm(forms.ModelForm):
             'headline': forms.Textarea(attrs={'class': 'form-control'}),
             'content': forms.Textarea(attrs={'class': 'form-control'}),
             'tag': forms.Textarea(attrs={'class': 'form-control'}),
+        }
+
+
+class AddTagForm(forms.ModelForm):
+    class Meta:
+        model = Tag
+        fields = ('name',)
+
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+
+class AddCategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ('name',)
+
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
         }
