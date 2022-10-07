@@ -70,6 +70,12 @@ class Category(models.Model):
     def get_absolute_url(self):
         return reverse('blog:category_details', kwargs={'slug': self.slug})
 
+    def get_update_url(self):
+        return reverse('blog:category_update', kwargs={'pk': self.pk})
+
+    def get_delete_url(self):
+        return reverse('blog:category_delete', kwargs={'pk': self.pk})
+
 
 class BlogPost(models.Model):
     """
@@ -86,7 +92,7 @@ class BlogPost(models.Model):
     table_content = RichTextField(default="", blank=True, null=True)
     content = RichTextField(blank=True, null=True)
     slug = models.SlugField(max_length=100, help_text="A short label, generally used in URLs.")
-    tag = models.ManyToManyField('Tag', blank=True, related_name='posts')
+    tag = models.ManyToManyField('Tag', blank=True, related_name='posts', null=True)
     reading_time = models.IntegerField(null=True, blank=True, default=0)
 
     # meta data
@@ -121,6 +127,18 @@ class BlogPost(models.Model):
     def get_absolute_url(self):
         return reverse('blog:article_details', kwargs={'pk': self.pk, 'slug': self.slug})
 
+    def get_update_url(self):
+        return reverse('blog:update_article', kwargs={'pk': self.pk})
+
+    def get_delete_url(self):
+        return reverse('blog:delete_article', kwargs={'pk': self.pk})
+
+    def get_unpublished_url(self):
+        return reverse('blog:unpublished', kwargs={'pk': self.pk})
+
+    def get_publish_url(self):
+        return reverse('blog:publish', kwargs={'pk': self.pk})
+
 
 class BlogEntry(models.Model):
     """
@@ -128,7 +146,7 @@ class BlogEntry(models.Model):
     :model:`blog.Category`.
     """
     post = models.ForeignKey(BlogPost, models.CASCADE)
-    pub_date = models.DateField()
+    pub_date = models.DateField(auto_now_add=True)
     status = models.CharField(max_length=10, choices=CHOICE_STATUS, default=DRAFT)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
 

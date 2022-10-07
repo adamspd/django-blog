@@ -38,9 +38,12 @@ tag_patterns = [
 
 article_patterns = [
     path('<int:pk>/<slug:slug>/', view_one_article, name='article_details'),
-    # path('add/', add_article, name='add_article'),
-    # path('update/<int:pk>/', update_article, name='update_article'),
-    # path('delete/<int:pk>/', delete_article, name='delete_article'),
+    path('add/', add_article, name='add_article'),
+    path('update/<int:pk>/', update_article, name='update_article'),
+    path('delete/<int:pk>/', delete_article, name='delete_article'),
+    path('publish-article/<int:pk>/', publish_article, name='publish_article'),
+    path('publish/<int:pk>/', publish_post, name='publish'),
+    path('unpublish/<int:pk>/', unpublished_article, name='unpublished'),
 ]
 
 # breaking_news_patterns = [
@@ -58,4 +61,5 @@ urlpatterns = [
     path('category/', include(category_patterns)),
     # path('breaking-news/', include(breaking_news_patterns)),
     path('search/', search, name='search'),
+    path('logout/', sign_out, name='logout'),
 ]

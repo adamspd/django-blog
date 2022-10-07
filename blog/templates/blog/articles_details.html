@@ -14,7 +14,8 @@
     {% endif %}
     <div id="progress-bar"></div>
     <div class="apd-main-body">
-        <div class="apd-main-header" style="background: linear-gradient(to bottom, {{ post.header_color }} 0%, white 100%);">
+        <div class="apd-main-header"
+             style="background: linear-gradient(to bottom, {{ post.header_color }} 0%, white 100%);">
             <div class="apd-header-container">
                 <h1 class="article-title">{{ post.title }}</h1>
                 <p class="date-posted">
@@ -35,8 +36,14 @@
                         {% endfor %}
                     {% endif %}
                     {% if user.is_authenticated %}
-                        <br><a href="" style="text-decoration: none">(EDIT)</a>
-                        <a href="" style="text-decoration: none">(DELETE)</a>
+                        <br><a href="{{ post.get_update_url }}" style="text-decoration: none">(EDIT)</a>
+                        <a href="{{ post.get_delete_url }}" style="text-decoration: none">(DELETE)</a>
+                        {% if meta.is_published %}
+                            <a href="{{ post.get_unpublished_url }}" style="text-decoration: none">(UNPUBLISHED)</a>
+                        {% else %}
+                            <a href="{{ post.get_publish_url }}" style="text-decoration: none">(PUBLISH)</a>
+                        {% endif %}
+
                     {% endif %}
                 </div>
             </div>

@@ -3,21 +3,21 @@
 {% block pageCustomCSS %}
     <link rel="stylesheet" href="{% static 'blog/css/add_post.css' %}">
 {% endblock %}
-{% block title %}Create new blog post{% endblock %}
+{% block title %}{{ page_title }}{% endblock %}
 
 {% block body %}
     <div class="container">
         <div class="apd-form">
-            <h1>Add Post</h1>
+            <h1>{{ page_title }}</h1>
             <br><br>
             <div class="form-group">
-                <form action="" method="POST" enctype="multipart/form-data">
+                <form action="" method="POST">
                     {% csrf_token %}
-                    {{ form.media }}
                     {{ form.as_p }}
-                    <button type="submit" class="btn btn-primary">Post</button>
+                    <button type="submit" class="btn btn-primary">{{ button_text }}</button>
                 </form>
             </div>
         </div>
     </div>
+    <br><br>
 {% endblock %}

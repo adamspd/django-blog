@@ -55,7 +55,12 @@
                                             <a href="{{ fp.post.get_absolute_url }}"
                                                class="btn btn-sm btn-outline-secondary">View</a>
                                         </div>
-                                        <small class="text-muted">{{ fp.post.created_at|date:"d M Y" }}</small>
+                                        <small class="text-muted">
+                                            {% if fp.is_draft %}
+                                                {{ fp.status.upper }}&nbsp;&nbsp;
+                                            {% endif %}
+                                            {{ fp.post.created_at|date:"d M Y" }}
+                                        </small>
                                     </div>
                                 </div>
                             </div>

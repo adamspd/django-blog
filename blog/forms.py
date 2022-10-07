@@ -1,5 +1,5 @@
 from django import forms
-from blog.models import Tag, BlogPost as Post, Category
+from blog.models import Tag, BlogPost as Post, Category, BlogEntry
 
 choices = Tag.objects.all().values_list('name', 'name')
 
@@ -12,13 +12,14 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = (
-            'title', 'header_img', 'author', 'headline', 'content', 'tag')
+            'title', 'header_img', 'author', 'headline', 'table_content', 'content', 'tag')
 
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'header_img': forms.TextInput(attrs={'class': 'form-control'}),
             'author': forms.Select(attrs={'class': 'form-control'}),
             'headline': forms.Textarea(attrs={'class': 'form-control'}),
+            'table_content': forms.Textarea(attrs={'class': 'form-control'}),
             'content': forms.Textarea(attrs={'class': 'form-control'}),
             'tag': forms.SelectMultiple(attrs={'class': 'form-control'})
         }
@@ -55,4 +56,15 @@ class AddCategoryForm(forms.ModelForm):
 
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+
+class PublishedPostForm(forms.ModelForm):
+    class Meta:
+        model = BlogEntry
+        fields = ('status', 'category')
+
+        widgets = {
+            'status': forms.Select(attrs={'class': 'form-control'}),
+            'category': forms.Select(attrs={'class': 'form-control'}),
         }

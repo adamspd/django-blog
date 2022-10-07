@@ -1,10 +1,11 @@
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q
 from django.shortcuts import render, redirect
 
-from blog.forms import AddTagForm, AddCategoryForm
-from blog.models import BlogPost as Post, Tag, PUBLISHED, BlogEntry, Category, BreakingNews
+from blog.forms import AddTagForm, AddCategoryForm, PostForm, PublishedPostForm
+from blog.models import BlogPost as Post, Tag, PUBLISHED, DRAFT, BlogEntry, Category, BreakingNews
 from blog.utils import generate_rgba_color
 
 
@@ -66,6 +67,71 @@ def view_one_article(request, pk, slug):
 
     print(breaking_news)
     return render(request=request, template_name='blog/articles_details.html', context=context)
+
+
+@login_required
+def add_article(request):
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('blog:publish_article', pk=form.instance.pk)
+    else:
+        form = PostForm()
+    return render(request, 'blog/add_post.html', {'form': form})
+
+
+@login_required
+def update_article(request, pk):
+    post = Post.objects.get(pk=pk)
+    if request.method == 'POST':
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('blog:publish_article', pk=form.instance.pk)
+    else:
+        form = PostForm(instance=post)
+    return render(request, 'blog/update_post.html', {'form': form})
+
+
+@login_required(login_url='/admin/')
+def publish_article(request, pk):
+    post = Post.objects.get(pk=pk)
+    form = PublishedPostForm(request.POST or None)
+    if form.is_valid():
+        meta = BlogEntry.objects.create(post=post, status=form.cleaned_data['status'],
+                                        category=form.cleaned_data['category'])
+        return redirect('blog:article_details', pk=meta.pk, slug=post.slug)
+    context = {
+        'form': form,
+        'page_title': 'Publish Post',
+        'button_text': 'Publish',
+    }
+    return render(request, 'blog/publish_post.html', context=context)
+
+
+@login_required(login_url='/admin/')
+def publish_post(request, pk):
+    BlogEntry.objects.filter(post__pk=pk).update(status=PUBLISHED)
+    meta = BlogEntry.objects.get(post__pk=pk)
+    return redirect('blog:article_details', pk=meta.pk, slug=Post.objects.get(pk=pk).slug)
+
+
+@login_required(login_url='/admin/')
+def unpublished_article(request, pk):
+    BlogEntry.objects.filter(post__pk=pk).update(status=DRAFT)
+    meta = BlogEntry.objects.get(post__pk=pk)
+    return redirect('blog:article_details', pk=meta.pk, slug=Post.objects.get(pk=pk).slug)
+
+
+@login_required(login_url='/admin/')
+def delete_article(request, pk):
+    try:
+        post = Post.objects.get(pk=pk)
+        post.delete()
+        return redirect('blog:home')
+    except Post.DoesNotExist:
+        return redirect('blog:home')
 
 
 def category_details(request, slug):
@@ -188,10 +254,16 @@ def delete_tag(request, pk):
 
 def search(request):
     query = request.GET.get('query', '')
-    posts = Post.objects.filter(status=PUBLISHED).filter(
-        Q(title__icontains=query) | Q(snippet__icontains=query) | Q(body__icontains=query))
+    posts = Post.objects.filter(blogentry__status=PUBLISHED).filter(
+        Q(title__icontains=query) | Q(headline__icontains=query) | Q(content__icontains=query))
+    print(posts)
     context = {
         'posts': paginate_posts(request=request, posts=posts, num=10),
         'query': query,
     }
     return render(request, 'blog/search.html', context=context)
+
+
+def sign_out(request):
+    logout(request)
+    return redirect('blog:home')
