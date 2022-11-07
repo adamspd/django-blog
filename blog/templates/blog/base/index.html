@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{% static 'blog/css/tag_and_categories.css' %}">
 {% endblock %}
 {% block title %}Welcome to Adams' blog{% endblock %}
+{% block canonical_url %}/blog/{% endblock %}
 {% block body %}
     <br>
     <div class="container">
@@ -16,8 +17,8 @@
                     <h4 class="font-italic">Categories</h4>
                     <div class="mb-0">
                         {% for category in cat_list %}
-                            <a href="{{ category.get_absolute_url }}" class="text-dark">
-                                <span class="badge badge-pill badge-dark single-tag">{{ category.name }}</span>
+                            <a href="{{ category.get_absolute_url }}" class="single-tag">
+                                <span>{{ category.name }}</span>
                             </a>
                         {% endfor %}
                     </div>
@@ -34,9 +35,8 @@
                 </div>
                 <div class="p-4 mb-3 bg-light rounded">
                     <h4 class="font-italic">About</h4>
-                    <p class="mb-0">This is a blog created by Adams. It is a place where I can write about my
-                        experiences
-                        and share them with the world.</p>
+                    <p class="mb-0">This blog is a place where I can write about my
+                        experiences and share them with the world.</p>
                 </div>
             </div>
             <div class="col-md-8" id="list-body">
@@ -70,5 +70,4 @@
             </div>
         </div>
     </div>
-
 {% endblock %}

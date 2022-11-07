@@ -23,7 +23,7 @@ app_name = 'blog'
 category_patterns = [
     path('add/', add_category, name='add_category'),
     path('details/<slug:slug>/', category_details, name='category_details'),
-    path('list/', view_all_category, name='list_category'),
+    path('list/', view_all_category, name='view_all_category'),
     path('update/<int:pk>/', update_category, name='update_category'),
     path('delete/<int:pk>/', delete_category, name='delete_category'),
 ]

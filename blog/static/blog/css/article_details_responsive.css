@@ -33,6 +33,7 @@
 
     .apd-main-header {
         width: 100%;
+        height: auto;
     }
 
     .apd-header-container {
@@ -79,7 +80,7 @@
 
     .apd-table-contents {
         max-width: 400px;
-        margin: 0;
+        margin: 20px 0 0;
     }
 
     .apd-right-column {
@@ -144,3 +145,4 @@
         width: 280px
     }
 }
+
