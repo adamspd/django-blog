@@ -1,12 +1,12 @@
-from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q
+from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect
 
-from blog.forms import AddTagForm, AddCategoryForm, PostForm, PublishedPostForm, AddBreakingNewsForm, ContactForm
-from blog.models import BlogPost as Post, Tag, PUBLISHED, DRAFT, BlogEntry, Category, BreakingNews, Contact
+from blog.forms import AddTagForm, AddCategoryForm, PostForm, PublishedPostForm, AddBreakingNewsForm
+from blog.models import BlogPost as Post, Tag, PUBLISHED, DRAFT, BlogEntry, Category, BreakingNews
 from blog.utils import generate_rgba_color
 
 
@@ -47,21 +47,35 @@ def view_all_article(request):
     return render(request, "blog/base/index.html", context=context)
 
 
-def view_one_article(request, pk, slug):
-    meta = BlogEntry.objects.get(pk=pk)
+def view_one_article(request, slug):
     post = Post.objects.get(slug=slug)
+    meta = BlogEntry.objects.get(post=post)
+    if meta.is_draft and not request.user.is_superuser:
+        # return not found and redirect to home page
+        return HttpResponseForbidden("You don't have permission to view this page")
     # Last 3 posts
     last_posts = BlogEntry.objects.all().filter(status=PUBLISHED).filter(category=meta.category).exclude(
         post__slug=slug).order_by('-pub_date')[:3]
 
+    # if last_posts is empty then get last 3 posts from all posts
+    if not last_posts:
+        last_posts = BlogEntry.objects.all().filter(status=PUBLISHED).exclude(post__slug=slug).order_by('-pub_date')[:3]
+
     # Get one breaking news
     breaking_news = BreakingNews.objects.all().filter(is_active=True).order_by('?')[:1]
     header_color = generate_rgba_color()
+
+    tag_list_query = list(post.tag.all())
+    ids = set(existing_answer.id for existing_answer in tag_list_query)
+    tag_list_as_list = [tag.name.replace("#", "") for tag in tag_list_query if tag.id in ids]
+    tag_list = ', '.join(tag_list_as_list)
+
     context = {
         'post': post,
         'meta': meta,
         'related_posts': last_posts,
         'header_color': header_color,
+        'tag_list': tag_list,
     }
     if breaking_news:
         context['breaking_news'] = breaking_news[0]
@@ -82,9 +96,10 @@ def add_article(request):
     return render(request, 'blog/post/add_post.html', {'form': form})
 
 
-@login_required
+@login_required(login_url='/admin/')
 def update_article(request, pk):
     post = Post.objects.get(pk=pk)
+    print(f"this is the post {post}")
     if request.method == 'POST':
         form = PostForm(request.POST, instance=post)
         if form.is_valid():
@@ -100,9 +115,16 @@ def publish_article(request, pk):
     post = Post.objects.get(pk=pk)
     form = PublishedPostForm(request.POST or None)
     if form.is_valid():
-        meta = BlogEntry.objects.create(post=post, status=form.cleaned_data['status'],
-                                        category=form.cleaned_data['category'])
-        return redirect('blog:article_details', pk=meta.pk, slug=post.slug)
+        try:
+            meta = BlogEntry.objects.get(post=post)
+            meta.status = form.cleaned_data['status']
+            meta.category = form.cleaned_data['category']
+            meta.save()
+            return redirect('blog:article_details', slug=post.slug)
+        except BlogEntry.DoesNotExist:
+            meta = BlogEntry.objects.create(post=post, status=form.cleaned_data['status'],
+                                            category=form.cleaned_data['category'])
+            return redirect('blog:article_details', slug=post.slug)
     context = {
         'form': form,
         'page_title': 'Publish Post',
@@ -114,15 +136,13 @@ def publish_article(request, pk):
 @login_required(login_url='/admin/')
 def publish_post(request, pk):
     BlogEntry.objects.filter(post__pk=pk).update(status=PUBLISHED)
-    meta = BlogEntry.objects.get(post__pk=pk)
-    return redirect('blog:article_details', pk=meta.pk, slug=Post.objects.get(pk=pk).slug)
+    return redirect('blog:article_details', slug=Post.objects.get(pk=pk).slug)
 
 
 @login_required(login_url='/admin/')
 def unpublished_article(request, pk):
     BlogEntry.objects.filter(post__pk=pk).update(status=DRAFT)
-    meta = BlogEntry.objects.get(post__pk=pk)
-    return redirect('blog:article_details', pk=meta.pk, slug=Post.objects.get(pk=pk).slug)
+    return redirect('blog:article_details', slug=Post.objects.get(pk=pk).slug)
 
 
 @login_required(login_url='/admin/')
@@ -137,7 +157,10 @@ def delete_article(request, pk):
 
 def category_details(request, slug):
     category = Category.objects.get(slug__iexact=slug)
-    posts = BlogEntry.objects.all().filter(category=category).order_by('-updated_at')
+    if request.user.is_authenticated:
+        posts = BlogEntry.objects.all().filter(category=category).order_by('-pub_date')
+    else:
+        posts = BlogEntry.objects.all().filter(category=category).filter(status=PUBLISHED).order_by('-updated_at')
     context = {
         'category': category,
         'posts': paginate_posts(request=request, posts=posts, num=10),
@@ -179,6 +202,7 @@ def update_category(request, pk):
 def view_all_category(request):
     categories = Category.objects.all()
     context = {
+        'page_title': 'All Categories',
         'categories': categories,
     }
     return render(request, 'blog/tags_categories/list_tags_or_category.html', context=context)
@@ -196,7 +220,10 @@ def delete_category(request, pk):
 
 def tag_details(request, slug):
     tag = Tag.objects.get(slug__iexact=slug)
-    posts = tag.posts.all().order_by('-updated_at')
+    if not request.user.is_superuser:
+        posts = tag.posts.all().order_by('-updated_at').filter(blogentry__status=PUBLISHED)
+    else:
+        posts = tag.posts.all().order_by('-updated_at')
     context = {
         'tag': tag,
         'posts': paginate_posts(request=request, posts=posts, num=10),
@@ -238,6 +265,7 @@ def update_tag(request, pk):
 def view_all_tags(request):
     tags = Tag.objects.all()
     context = {
+        'page_title': "All Tags",
         'tags': tags,
     }
     return render(request, 'blog/tags_categories/list_tags_or_category.html', context=context)
@@ -325,26 +353,3 @@ def search(request):
 def sign_out(request):
     logout(request)
     return redirect('blog:home')
-
-
-def contact(request):
-    if request.method == 'POST':
-        form = ContactForm(request.POST)
-        if form.is_valid():
-            hidden = form.cleaned_data['hidden']
-            full_name = form.cleaned_data['full_name']
-            email = form.cleaned_data['email']
-            message = form.cleaned_data['message']
-            if hidden != "":
-                print(f"Bot detected: full name: {full_name}, email: {email}, message: {message}, bot: {hidden}")
-                messages.success(request, "Your message has been sent successfully !")
-                return redirect("homepage:contact")
-            else:
-                Contact.objects.create(full_name=full_name, email=email, message=message)
-                print(f"form is valid and saved: {full_name}, {email}, {message}")
-                messages.success(request, "Your message has been sent successfully !")
-                return redirect('blog:contact')
-    else:
-        form = ContactForm()
-    context = {'form': form}
-    return render(request, 'blog/contact_legal/contact.html', context)

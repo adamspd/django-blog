@@ -1,0 +1,46 @@
+.pd-body-container {
+    margin-top: 70px;
+    margin-bottom: 10px;
+}
+
+.pd-nav-pagination {
+    margin: 0 auto;
+    display: flex;
+}
+
+/* bootstrap.min.css | https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css */
+
+.dropdown-menu {
+    /* left: 0; */
+    /* float: left; */
+    /* margin: .125rem 0 0; */
+    /* text-align: left; */
+    /* background-color: #fff; */
+    border: 0 !important;
+    border-radius: 0;
+    left: -0px;
+    margin-top: 25px;
+    background-color: rgba(52, 58, 64, 0.85);
+    padding-left: 10px;
+}
+
+.pricing:hover {
+    text-decoration: underline white 1px;
+    cursor: pointer;
+}
+
+.apd-nav {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.apd-form {
+    max-width: 80%;
+}
+
+@media (max-width: 767px) {
+    .pd-main-body {
+        margin-top: 5% !important;
+    }
+}

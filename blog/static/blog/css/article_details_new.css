@@ -282,3 +282,11 @@ html {
     z-index: -1;
 }
 
+img {
+    /* max width size of article  */
+    max-height: 200px;
+    width: auto;
+    overflow: hidden;
+    object-fit: cover;
+    border-radius: 8px;
+}

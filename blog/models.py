@@ -1,5 +1,7 @@
 from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.urls import reverse
@@ -24,8 +26,8 @@ class Tag(models.Model):
     tag_color = models.CharField(max_length=255, default=generate_rgba_color, null=True, blank=True)
 
     # meta data
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
 
     class Meta:
         ordering = ['name']
@@ -91,8 +93,8 @@ class BlogPost(models.Model):
     headline = models.CharField(max_length=255, default="")
     table_content = RichTextField(default="", blank=True, null=True)
     content = RichTextField(blank=True, null=True)
-    slug = models.SlugField(max_length=100, help_text="A short label, generally used in URLs.")
-    tag = models.ManyToManyField('Tag', blank=True, related_name='posts', null=True)
+    slug = models.SlugField(max_length=100, help_text="A short label, generally used in URLs.", unique=True)
+    tag = models.ManyToManyField('Tag', blank=True, related_name='posts')
     reading_time = models.IntegerField(null=True, blank=True, default=0)
 
     # meta data
@@ -125,7 +127,7 @@ class BlogPost(models.Model):
         return mark_safe(markdown_text)
 
     def get_absolute_url(self):
-        return reverse('blog:article_details', kwargs={'pk': self.pk, 'slug': self.slug})
+        return reverse('blog:article_details', kwargs={'slug': self.slug})
 
     def get_update_url(self):
         return reverse('blog:update_article', kwargs={'pk': self.pk})
@@ -139,6 +141,9 @@ class BlogPost(models.Model):
     def get_publish_url(self):
         return reverse('blog:publish', kwargs={'pk': self.pk})
 
+    def get_pub_date(self):
+        return BlogEntry.objects.get(post=self).pub_date
+
 
 class BlogEntry(models.Model):
     """
@@ -146,7 +151,7 @@ class BlogEntry(models.Model):
     :model:`blog.Category`.
     """
     post = models.ForeignKey(BlogPost, models.CASCADE)
-    pub_date = models.DateField(auto_now_add=True)
+    pub_date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     status = models.CharField(max_length=10, choices=CHOICE_STATUS, default=DRAFT)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
 
@@ -193,6 +198,10 @@ class BlogEntry(models.Model):
         self.status = DRAFT
         self.save()
 
+    def get_domain(self):
+        domain_name = get_current_site(None).domain
+        return "https://" + domain_name
+
     # def get_absolute_url(self):
     #     return reverse('blog:article_details', args=(str(self.id), self.slug))
 
@@ -214,6 +223,19 @@ class TemplateConfiguration(models.Model):
     site_description = models.CharField(
         default="Author: Adams Pierre David, Designer: Adams Pierre David, Category: Blog",
         max_length=255)
+    site_url = models.CharField(default="http://127.0.0.1/8000", max_length=255)
+    site_locale = models.CharField(default="en_US", max_length=10)
+
+    def __str__(self):
+        return self.site_url
+
+    def save(self, *args, **kwargs):
+        """Saves the blog content and automatically create a slug from the title."""
+        domain_name = get_current_site(None).domain
+        self.site_url = "https://" + domain_name
+        if not self.pk and TemplateConfiguration.objects.exists():
+            raise ValidationError('There is can be only one TemplateConfiguration instance')
+        return super().save(*args, **kwargs)
 
 
 class BreakingNews(models.Model):
@@ -235,13 +257,3 @@ class BreakingNews(models.Model):
 
     class Meta:
         verbose_name_plural = "Breaking News"
-
-
-class Contact(models.Model):
-    full_name = models.CharField(max_length=100, null=False, blank=False)
-    email = models.EmailField(blank=False, null=True)
-    message = models.TextField(max_length=1000, null=False, blank=False)
-    date_created = models.DateTimeField(auto_now_add=True, null=True)
-
-    def __str__(self):
-        return self.full_name

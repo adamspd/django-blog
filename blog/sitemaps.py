@@ -2,15 +2,15 @@
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
 
-from blog.models import BlogEntry as Post
+from blog.models import PUBLISHED, BlogPost, BlogEntry
 
 
 class BlogViewSitemap(Sitemap):
     priority = 1
-    changefreq = 'daily'
+    changefreq = 'weekly'
 
     def items(self):
-        return Post.objects.all().filter(status='published')
+        return BlogPost.objects.all().filter(blogentry__status=PUBLISHED)
 
     def lastmod(self, obj):
-        return obj.pub_date
+        return obj.get_pub_date()

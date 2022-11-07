@@ -42,3 +42,7 @@ def generate_3_backgrounds_colors():
     properties = "background: " + colors[0] + "; background: radial-gradient(circle, " + colors[0] + " 0%, " + \
                  colors[1] + " 100%);"
     return properties
+
+
+def get_current_url(request):
+    return request.META['HTTP_REFERER']

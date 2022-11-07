@@ -81,3 +81,7 @@
 .stage a:hover:after {
     color: #231f20;
 }
+
+.tags {
+    float: left;
+}
