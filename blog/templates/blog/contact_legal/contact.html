@@ -1,0 +1,88 @@
+{% extends 'blog/base/base.html' %}
+{% load static %}
+{% block title %}Contact us{% endblock %}
+{% block pageCustomCSS %}
+    <link rel="stylesheet" href="{% static 'contact_legal/css/contact.css' %}">
+{% endblock %}
+{% block site_description %}Contact page{% endblock %}
+{% block body %}
+    <div class="clearfix"></div>
+
+    <!-- Contact section  -->
+    <section class="contact-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="contact-text">
+                        <h3>GET IN TOUCH</h3>
+                        <p class="">
+                            Thank you for visiting our website. We are always happy to hear from you. Please, feel free
+                            to contact us for any queries or suggestions.<br><br>
+                            <strong>Your email address won't be shared. We won't spam you either.</strong><br><br>
+                            We will get back to you as soon as possible.
+                        </p>
+                        <br><br><br>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        {{ form }}
+
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert {% if message.tags %}alert-{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}danger{% else %}{{ message.tags }}{% endif %}{% endif %}"
+                                     role="alert">{{ message }}</div>
+                            {% endfor %}
+                        {% endif %}
+                        {% if form.errors %}
+                            {% for field, errors in form.errors.items %}
+                                {% for error in errors %}
+                                    <p style="color: darkred">{{ error }}</p>
+                                {% endfor %}
+                            {% endfor %}
+                        {% endif %}
+                        <input class="btn btn-primary prevent_multiple" type="submit" value="Submit"
+                               style="width: 100px"><i class="fa fa-refresh fa-lg fa-spin"></i>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Contact section end  -->
+
+    <!-- Instagram section -->
+    <div class="instagram-section">
+        <h6></h6>
+        <div id="instafeed" class="instagram-slider owl-carousel"></div>
+    </div>
+
+    <script>
+
+        //Query All input fields
+        let form_fields = document.getElementsByTagName('input')
+        form_fields[2].placeholder = 'How do I call you ? ';
+        form_fields[3].placeholder = "A valid email address please... ?";
+
+        let form_field_text_area = document.getElementsByTagName('textarea')
+        form_field_text_area[0].placeholder = "I'm listening... ";
+
+
+        for (let field in form_fields) {
+            form_fields[field].className += ' form-control'
+        }
+    </script>
+
+{% endblock %}
+
+{% block customJS %}
+    <script>
+        $('.prevent_multiple').click(function () {
+            const old_width = $(this).width();                              // store original width
+            $(this).html('<i class="fa fa-refresh fa-lg fa-spin"></i>');    // replace button text with icon
+            $(this).width(old_width);                                       // restore original width
+            $(this).prop('disabled', true);                                 // disable the button
+            $(this).parents('form:first').submit();                         // submit the form
+        });
+    </script>
+{% endblock %}

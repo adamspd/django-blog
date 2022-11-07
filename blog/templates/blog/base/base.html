@@ -2,6 +2,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Google Analytics  -->
+    <!-- Google tag (gtag.js) IMPORTANT: PUT YOUR LINK HERE FOR GOOGLE ANALYTICS TO WORK -->
+    <script async src=""></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'PUT YOUR ID HERE');
+    </script>
+    <!-- End Google Analytics  -->
+    <!-- Google search optimizations -->
+    {% block gso %}{% endblock %}
     <meta charset="UTF-8">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
@@ -9,10 +26,11 @@
     <meta name="description"
           content="{% block site_description %}{% endblock %}">
     <meta name="robots" content="{% block meta_robot_google %}all{% endblock %}">
+    {% block custom_meta %}{% endblock %}
+    <link rel="canonical" href="https://adamspierredavid.com{% block canonical_url %}{% endblock %}">
     <title>{% block title %}{% endblock %}</title>
 
-    <link href="{% block favicon %}{% endblock %}" rel="shortcut icon"/>
-    <link rel="stylesheet" href="{% static 'blog/css/base.css' %}">
+    <link href="{% block favicon %}{% static 'root/img/favicon/favicon.ico' %}{% endblock %}" rel="shortcut icon"/>
     {% block pageCustomCSS %}{% endblock %}
 </head>
 <body>
@@ -65,11 +83,6 @@
 <div class="container footer">
     <footer class="pt-4 my-md-5 pt-md-5 border-top">
         <div class="row">
-            <div class="col-12 col-md">
-                <small class="d-block mb-3 text-muted">Adams Pierre David &copy;
-                    <script>document.write(new Date().getFullYear());</script>
-                </small>
-            </div>
             <div class="col-6 col-md">
                 <h5>Past Work</h5>
                 <ul class="list-unstyled text-small">
@@ -81,7 +94,7 @@
             <div class="col-6 col-md">
                 <h5>Information</h5>
                 <ul class="list-unstyled text-small">
-                    <li><a class="text-muted" href="#">Work Process</a></li>
+                    <li><a class="text-muted" href="{% url 'blog:contact' %}">Send me a message</a></li>
                     <li><a class="text-muted" href="#">Additional Services</a></li>
                     <li><a class="text-muted" href="#">Recent Q&A</a></li>
                 </ul>
@@ -89,12 +102,16 @@
             <div class="col-6 col-md">
                 <h5>Legal</h5>
                 <ul class="list-unstyled text-small">
-                    <li><a class="text-muted" href="#">Send me a message</a></li>
                     <li><a class="text-muted" href="#">Privacy Policy</a></li>
                     <li><a class="text-muted" href="#">Terms & Conditions</a>
                     </li>
                 </ul>
             </div>
+        </div>
+        <div class="col-12 col-md">
+            <small class="d-block mb-3 text-muted">Adams Pierre David &copy;
+                <script>document.write(new Date().getFullYear());</script>
+            </small>
         </div>
     </footer>
 </div>

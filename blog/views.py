@@ -1,11 +1,12 @@
+from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q
 from django.shortcuts import render, redirect
 
-from blog.forms import AddTagForm, AddCategoryForm, PostForm, PublishedPostForm, AddBreakingNewsForm
-from blog.models import BlogPost as Post, Tag, PUBLISHED, DRAFT, BlogEntry, Category, BreakingNews
+from blog.forms import AddTagForm, AddCategoryForm, PostForm, PublishedPostForm, AddBreakingNewsForm, ContactForm
+from blog.models import BlogPost as Post, Tag, PUBLISHED, DRAFT, BlogEntry, Category, BreakingNews, Contact
 from blog.utils import generate_rgba_color
 
 
@@ -324,3 +325,26 @@ def search(request):
 def sign_out(request):
     logout(request)
     return redirect('blog:home')
+
+
+def contact(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            hidden = form.cleaned_data['hidden']
+            full_name = form.cleaned_data['full_name']
+            email = form.cleaned_data['email']
+            message = form.cleaned_data['message']
+            if hidden != "":
+                print(f"Bot detected: full name: {full_name}, email: {email}, message: {message}, bot: {hidden}")
+                messages.success(request, "Your message has been sent successfully !")
+                return redirect("homepage:contact")
+            else:
+                Contact.objects.create(full_name=full_name, email=email, message=message)
+                print(f"form is valid and saved: {full_name}, {email}, {message}")
+                messages.success(request, "Your message has been sent successfully !")
+                return redirect('blog:contact')
+    else:
+        form = ContactForm()
+    context = {'form': form}
+    return render(request, 'blog/contact_legal/contact.html', context)

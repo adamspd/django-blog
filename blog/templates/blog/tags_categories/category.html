@@ -6,7 +6,10 @@
     <link rel="stylesheet" href="{% static 'blog/css/article_list.css' %}">
     <link rel="stylesheet" href="{% static 'blog/css/title_and_tagline.css' %}">
 {% endblock %}
-{% block site_description %}List of post corresponding a certain category{% endblock %}
+{% block canonical_url %}
+    {{ category.get_absolute_url }}
+{% endblock %}
+{% block site_description %}List of post containing the category name : {{ category.name.title }}{% endblock %}
 {% block meta_robot_google %}max-snippet:-1{% endblock %}
 {% block body %}
     <div class="container standard-height">
@@ -38,7 +41,7 @@
                     </div>
                 {% endfor %}
             {% else %}
-                <h2>Sorry this tag does not exist...</h2>
+                <h2>Sorry, no result found...</h2>
             {% endif %}
         {% endif %}
     </div>

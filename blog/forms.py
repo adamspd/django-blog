@@ -10,6 +10,7 @@
 """
 
 from django import forms
+
 from blog.models import Tag, BlogPost as Post, Category, BlogEntry, BreakingNews
 
 choices = Tag.objects.all().values_list('name', 'name')
@@ -90,3 +91,32 @@ class AddBreakingNewsForm(forms.ModelForm):
             'breaking_news': forms.CheckboxInput(attrs={'class': 'form-control'}),
         }
 
+
+class ContactForm(forms.Form):
+    full_name = forms.CharField(max_length=255, required=True)
+    email = forms.EmailField(required=True)
+    message = forms.CharField(widget=forms.Textarea, required=True)
+    hidden = forms.CharField(required=False)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['full_name'].widget.attrs.update(
+            {
+                'type': 'text',
+                'class': 'form-control',
+                'onkeyup': 'return forceTitle(this);',
+                'placeholder': 'Your name',
+            })
+        self.fields['email'].widget.attrs.update(
+            {
+                'type': 'email',
+                'class': 'form-control',
+                'onkeyup': 'return forceLower(this);',
+                'placeholder': 'Your email',
+            })
+        self.fields['hidden'].widget.attrs.update(
+            {
+                'type': 'hidden',
+                'class': 'hidden-value',
+                'placeholder': 'Subject',
+            })

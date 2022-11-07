@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{% static 'blog/css/article_list.css' %}">
     <link rel="stylesheet" href="{% static 'blog/css/title_and_tagline.css' %}">
 {% endblock %}
-{% block site_description %}List of post corresponding a certain tag{% endblock %}
+{% block site_description %}List of articles containing the query : {{ query }}{% endblock %}
 {% block meta_robot_google %}max-snippet:-1{% endblock %}
 {% block body %}
     <div class="container standard-height">

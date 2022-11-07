@@ -6,7 +6,8 @@
     <link rel="stylesheet" href="{% static 'blog/css/article_list.css' %}">
     <link rel="stylesheet" href="{% static 'blog/css/title_and_tagline.css' %}">
 {% endblock %}
-{% block site_description %}List of post corresponding a certain tag{% endblock %}
+{% block canonical_url %}{{ tag.get_absolute_url }}{% endblock %}
+{% block site_description %}List of articles containing the tag: {{ tag.slug }}{% endblock %}
 {% block meta_robot_google %}max-snippet:-1{% endblock %}
 {% block body %}
     <div class="container standard-height">

@@ -62,4 +62,5 @@ urlpatterns = [
     path('breaking-news/', include(breaking_news_patterns)),
     path('search/', search, name='search'),
     path('logout/', sign_out, name='logout'),
+    path('contact/', contact, name='contact'),
 ]
