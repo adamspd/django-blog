@@ -376,4 +376,4 @@ def contact(request):
     else:
         form = ContactForm()
     context = {'form': form}
-    return render(request, 'contact_legal/contact.html', context)
+    return render(request, 'blog/contact_legal/contact.html', context)
