@@ -257,3 +257,13 @@ class BreakingNews(models.Model):
 
     class Meta:
         verbose_name_plural = "Breaking News"
+
+
+class Contact(models.Model):
+    full_name = models.CharField(max_length=100, null=False, blank=False)
+    email = models.EmailField(blank=False, null=True)
+    message = models.TextField(max_length=1000, null=False, blank=False)
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
+
+    def __str__(self):
+        return self.full_name

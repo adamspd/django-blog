@@ -11,22 +11,29 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
 from pathlib import Path
-from django.template.context_processors import media
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+from django.template.context_processors import media
+
+# Add custom languages not provided by Django
+from django.conf import locale, global_settings
+from django.utils.translation import gettext_lazy as _
+
+from django_blog.productions import production_debug, production_secret_key
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
+# See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-(+fg02_uyv!uh^z@w076dbye2x&=u-@1&@672zb^=!m0x8(3%5'
+SECRET_KEY = production_secret_key
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = production_debug
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"] if DEBUG else ['https://adamspierredavid.com', 'www.adamspierredavid.com', 'adamspierredavid.com',
+                                     '144.217.7.48']
 
 
 # Application definition
@@ -42,6 +49,8 @@ INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'ckeditor',
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -138,3 +147,112 @@ MEDIA_URL = 'media/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# ADDITIONAL CONFIGURATION STARTS HERE
+
+# Number of seconds of inactivity before a user is marked offline
+USER_ONLINE_TIMEOUT = 300
+
+# Number of seconds that we will keep track of inactive users for before
+# their last seen is removed from the cache
+USER_LAST_SEEN_TIMEOUT = 60 * 60 * 24 * 7
+
+# Caches settings
+CACHES_LOCATION = os.path.join(BASE_DIR, '.cache') if DEBUG else "/home/debian/.cache/WHERE_YOU_HOSTED_YOUR_BLOG"
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': CACHES_LOCATION,
+    }
+}
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        # ... your default config...
+        'allowedContent': True
+    }
+}
+
+# Message storage
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
+ADMINS = [
+    ('Admin name', 'admin.developer@gmail.com'),
+]
+
+# if managers != admins, do as ADMINS table (line 179-181) for managers
+MANAGERS = ADMINS
+
+# Extra deployment parameters
+if not DEBUG:
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
+    SECURE_SSL_REDIRECT = True
+
+    SECURE_HSTS_SECONDS = 60
+    SECURE_HSTS_PRELOAD = True
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+
+    SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+    SESSION_COOKIE_AGE = 1800  # 30 minutes
+
+# Email settings allowing you to send email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+
+# your app email in google here
+EMAIL_HOST_USER = 'example@gmail.com'
+
+# your app email password in google here
+EMAIL_HOST_PASSWORD = 'mypassword'
+EMAIL_USE_TLS = True
+EMAIL_SUBJECT_PREFIX = ""
+EMAIL_USE_LOCALTIME = True
+
+# Language translation settings for french and haitian creole
+# deactivate for now until translation feature is added
+
+EXTRA_LANG_INFO = {
+    'cr-ht': {
+        'bidi': False,  # right-to-left
+        'code': 'cr-ht',
+        'name': 'Haitian Creole',
+        'name_local': "Kreyòl",
+    },
+}
+
+LANG_INFO = dict(locale.LANG_INFO, **EXTRA_LANG_INFO)
+locale.LANG_INFO = LANG_INFO
+
+LANGUAGES = (
+    ('cr-ht', _('Kreyòl')),
+    ('fr', _('Français')),
+    ('en', _('English')),
+)
+
+# Languages using BiDi (right-to-left) layout
+LANGUAGES_BIDI = global_settings.LANGUAGES_BIDI + ["cr-ht"]
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR / 'locale'),
+)
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'null': {
+            'level': 'DEBUG',
+            'class': 'logging.NullHandler',
+        },
+    },
+    'loggers': {
+        'django.security.DisallowedHost': {
+            'handlers': ['null'],
+            'propagate': False,
+        },
+    },
+}

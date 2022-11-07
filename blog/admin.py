@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from blog.models import BlogPost, Tag, PostImage, BlogEntry, Category, TemplateConfiguration, BreakingNews
+from blog.models import BlogPost, Tag, PostImage, BlogEntry, Category, TemplateConfiguration, BreakingNews, Contact
 
 
 @admin.register(BlogPost)
@@ -27,15 +27,26 @@ class TagAdmin(admin.ModelAdmin):
 
 
 @admin.register(PostImage)
-class PostPictureAdmin(admin.ModelAdmin):
+class PostImageAdmin(admin.ModelAdmin):
     pass
 
 
 @admin.register(TemplateConfiguration)
-class PostPictureAdmin(admin.ModelAdmin):
+class TemplateConfigurationAdmin(admin.ModelAdmin):
     pass
 
 
 @admin.register(BreakingNews)
-class PostPictureAdmin(admin.ModelAdmin):
+class BreakingNewsAdmin(admin.ModelAdmin):
     pass
+
+
+@admin.register(Contact)
+class ContactForm(admin.ModelAdmin):
+    model = Contact
+    search_fields = ('full_name', 'email', 'message', 'date_created')
+    list_filter = ('date_created', 'full_name', 'email')
+    ordering = ('-date_created',)
+    list_display = ('full_name', 'date_created', 'email')
+
+
